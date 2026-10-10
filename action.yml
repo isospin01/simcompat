@@ -1,0 +1,54 @@
+name: "SimCompat"
+description: "Check that every physics engine simulates what your robot URDF declares (MuJoCo, PyBullet, Pinocchio)."
+branding:
+  icon: "check-circle"
+  color: "blue"
+inputs:
+  urdf:
+    description: "Robot to check: a .urdf, a .urdf.xacro (expanded automatically), a directory containing one, or rd:<name>"
+    required: true
+  backends:
+    description: "Space-separated backend specs, e.g. 'pinocchio mujoco pybullet:inertia_from_file=1' (default: all installed)"
+    required: false
+    default: ""
+  args:
+    description: "Extra arguments for `simcompat check` (e.g. --package-dir NAME=PATH --profile simcompat.toml --strict)"
+    required: false
+    default: ""
+  python-version:
+    description: "Python version"
+    required: false
+    default: "3.11"
+  version:
+    description: "simcompat version spec for pip (default: this action's checkout)"
+    required: false
+    default: ""
+outputs:
+  report:
+    description: "Path to the JSON report (an HTML report is written next to it)"
+    value: ${{ steps.run.outputs.report }}
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+    - name: Install simcompat
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.version }}" ]; then
+          pip install "simcompat[all]${{ inputs.version }}"
+        else
+          pip install "${{ github.action_path }}[all]"
+        fi
+    - id: run
+      name: Run simcompat
+      shell: bash
+      run: |
+        set +e
+        B=""
+        for spec in ${{ inputs.backends }}; do B="$B -b $spec"; done
+        simcompat check "${{ inputs.urdf }}" $B -o simcompat-report.json -o simcompat-report.html ${{ inputs.args }}
+        code=$?
+        echo "report=simcompat-report.json" >> "$GITHUB_OUTPUT"
+        exit $code

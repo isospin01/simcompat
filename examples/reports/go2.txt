@@ -1,0 +1,32 @@
+SimCompat 0.2.0 · go2 · 12 movable joints
+Engines: pinocchio 4.1.0 (reference) · mujoco 3.15.0 · pybullet 3.2.7
+Input: robot_descriptions model go2_description
+
+✗ FAIL  Some engines simulate something different from what the file declares.
+
+1. ✗ Engines simulate different mass, center of mass or inertia than the file declares
+   pybullet  FL_calf_joint   mass 2.194 kg vs declared 0.194 kg; COM off by 30.9 mm; inertia tensor rel. error 0.681
+   pybullet  FR_calf_joint   mass 2.194 kg vs declared 0.194 kg; COM off by 30.9 mm; inertia tensor rel. error 0.683
+   pybullet  RL_calf_joint   mass 2.194 kg vs declared 0.194 kg; COM off by 30.9 mm; inertia tensor rel. error 0.683
+   pybullet  RR_calf_joint   mass 2.194 kg vs declared 0.194 kg; COM off by 30.9 mm; inertia tensor rel. error 0.683
+   mujoco    FL_calf_joint   mass 0.241352 kg vs declared 0.194 kg; COM off by 6.51 mm; inertia tensor rel. error 0.0515
+   mujoco    FR_calf_joint   mass 0.241352 kg vs declared 0.194 kg; COM off by 6.51 mm; inertia tensor rel. error 0.0515
+   ... and 10 more (all with --verbose)
+   Fix: These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.
+   Fix: PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).
+   Also explains: dynamics.mass_matrix (mujoco, pybullet), dynamics.gravity (mujoco, pybullet), dynamics.coriolis (mujoco, pybullet), rollout.rigid (mujoco, pybullet), rollout.passive (pybullet)
+   More: simcompat explain inertia.clusters
+
+2. ! Moving links have no <inertial>, so each engine invents its own mass for them
+   file  FL_calflower   moved by 'FL_calf_joint' but has no <inertial>
+   file  FL_calflower1  moved by 'FL_calf_joint' but has no <inertial>
+   file  FR_calflower   moved by 'FR_calf_joint' but has no <inertial>
+   file  FR_calflower1  moved by 'FR_calf_joint' but has no <inertial>
+   file  RL_calflower   moved by 'RL_calf_joint' but has no <inertial>
+   file  RL_calflower1  moved by 'RL_calf_joint' but has no <inertial>
+   ... and 2 more (all with --verbose)
+   Fix: Add an explicit <inertial> so every engine uses the same mass.
+   More: simcompat explain file.inertial
+
+Checks: File ! · Import i · Inertia ✗ · Kinematics ✓ · Dynamics ✗ · Rollout ✗   (✓ ok · i note · ! warning · ✗ differs)
+Every finding, the check matrix and the joint ordering: --verbose, or -o report.html

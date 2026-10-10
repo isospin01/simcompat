@@ -1,0 +1,2444 @@
+{
+  "schema": "simcompat.report/v1",
+  "tool_version": "0.2.0",
+  "created": "2026-10-10T01:18:50+00:00",
+  "verdict": "FAIL",
+  "counts": {
+    "PASS": 51,
+    "SKIP": 3,
+    "INFO": 6,
+    "WARN": 3,
+    "FAIL": 15,
+    "ERROR": 0
+  },
+  "model": {
+    "name": "onshape",
+    "input": "rd:berkeley_humanoid_description",
+    "label": "berkeley_humanoid",
+    "path": "/root/.cache/robot_descriptions/berkeley_humanoid_description/urdf/robot.urdf",
+    "root": "torso",
+    "links": 15,
+    "joints": 14,
+    "movable_joints": [
+      "LL_HR",
+      "LL_HAA",
+      "LL_HFE",
+      "LL_KFE",
+      "LL_FFE",
+      "LL_FAA",
+      "LR_HR",
+      "LR_HAA",
+      "LR_HFE",
+      "LR_KFE",
+      "LR_FFE",
+      "LR_FAA"
+    ],
+    "notes": [
+      "robot_descriptions model berkeley_humanoid_description"
+    ]
+  },
+  "reference": "pinocchio",
+  "backends": [
+    {
+      "label": "pinocchio",
+      "name": "pinocchio",
+      "ok": true,
+      "version": "4.1.0",
+      "error": null,
+      "hint": null,
+      "is_simulator": false,
+      "is_reference": true,
+      "settings": [
+        "pinocchio.buildModelFromUrdf (fixed base)",
+        "rigid rollouts: semi-implicit Euler on ABA with the shared timestep (no limits)"
+      ],
+      "defaults": {
+        "base": "fixed unless a root joint (e.g. JointModelFreeFlyer) is passed",
+        "missing <inertial>": "zero mass and inertia (the URDF specification)",
+        "mimic": "independent joint unless built with mimic=True"
+      },
+      "warnings": []
+    },
+    {
+      "label": "mujoco",
+      "name": "mujoco",
+      "ok": true,
+      "version": "3.15.0",
+      "error": null,
+      "hint": null,
+      "is_simulator": true,
+      "is_reference": false,
+      "settings": [
+        "loaded with MuJoCo's URDF importer (MjModel.from_xml_path)",
+        "<compiler strippath='false'> injected (mesh file resolution only)",
+        "timestep = 0.001",
+        "rollouts: contacts disabled; integrator left at the model default"
+      ],
+      "defaults": {
+        "base": "fixed (the root link is welded to the world unless a 'floating' joint is declared)",
+        "fusestatic": "true for URDF (bodies joined by fixed joints are merged)",
+        "velocity limit": "not represented (MuJoCo has no joint velocity limit)",
+        "effort limit": "mapped to the joint's actuatorfrcrange",
+        "missing <inertial>": "mass and inertia inferred from collision geometry (inertiafromgeom=auto)"
+      },
+      "warnings": []
+    },
+    {
+      "label": "pybullet",
+      "name": "pybullet",
+      "ok": true,
+      "version": "3.2.7",
+      "error": null,
+      "hint": null,
+      "is_simulator": true,
+      "is_reference": false,
+      "settings": [
+        "loadURDF(useFixedBase=True, flags=0)",
+        "setGravity(0, 0, -9.81)  [PyBullet's default gravity is 0]",
+        "setTimeStep(0.001)",
+        "default joint velocity motors disabled (force=0)  [PyBullet holds every joint with a motor]",
+        "link linear/angular damping set to 0  [PyBullet's default is 0.04]",
+        "joint speed cap raised to 10000 rad/s  [PyBullet clamps joint speeds at 100 by default]"
+      ],
+      "defaults": {
+        "base": "floating (loadURDF useFixedBase=False)",
+        "gravity": "0 until setGravity is called",
+        "joint motors": "a velocity motor on every joint, max force = URDF effort",
+        "inertia": "recomputed from collision shapes",
+        "missing <inertial>": "mass 1 kg",
+        "mimic": "not supported by loadURDF (the joint stays independent)",
+        "floating joint": "built as a fixed joint",
+        "joint speed": "clamped at 100 rad/s"
+      },
+      "warnings": []
+    },
+    {
+      "label": "pybullet[inertia_from_file=1]",
+      "name": "pybullet",
+      "ok": true,
+      "version": "3.2.7",
+      "error": null,
+      "hint": null,
+      "is_simulator": true,
+      "is_reference": false,
+      "settings": [
+        "loadURDF(useFixedBase=True, flags=2)",
+        "setGravity(0, 0, -9.81)  [PyBullet's default gravity is 0]",
+        "setTimeStep(0.001)",
+        "default joint velocity motors disabled (force=0)  [PyBullet holds every joint with a motor]",
+        "link linear/angular damping set to 0  [PyBullet's default is 0.04]",
+        "joint speed cap raised to 10000 rad/s  [PyBullet clamps joint speeds at 100 by default]"
+      ],
+      "defaults": {
+        "base": "floating (loadURDF useFixedBase=False)",
+        "gravity": "0 until setGravity is called",
+        "joint motors": "a velocity motor on every joint, max force = URDF effort",
+        "inertia": "from the URDF",
+        "missing <inertial>": "mass 1 kg",
+        "mimic": "not supported by loadURDF (the joint stays independent)",
+        "floating joint": "built as a fixed joint",
+        "joint speed": "clamped at 100 rad/s"
+      },
+      "warnings": []
+    }
+  ],
+  "config": {
+    "tolerances": {
+      "limit_abs": 1e-06,
+      "param_rel": 1e-06,
+      "mass_rel": 1e-06,
+      "com_abs": 1e-06,
+      "inertia_rel": 1e-05,
+      "inertia_abs": 1e-09,
+      "position_abs": 1e-06,
+      "angle_abs": 1e-06,
+      "mass_matrix_rel": 1e-06,
+      "gravity_rel": 1e-06,
+      "coriolis_rel": 1e-05,
+      "torque_abs": 1e-08,
+      "rigid_rollout_abs": 1e-05,
+      "passive_rollout_abs": 0.01,
+      "passive_rollout_rel": 0.02,
+      "effect_abs": 1e-09
+    },
+    "samples": 6,
+    "rollout_samples": 2,
+    "seed": 0,
+    "dt": 0.001,
+    "duration": 0.5,
+    "severity_overrides": {}
+  },
+  "problems": [
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "headline": "Engines simulate different mass, center of mass or inertia than the file declares",
+      "engines": [
+        "pybullet"
+      ],
+      "hints": [
+        "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1)."
+      ],
+      "explains": [
+        [
+          "dynamics.mass_matrix",
+          "pybullet"
+        ],
+        [
+          "dynamics.coriolis",
+          "pybullet"
+        ],
+        [
+          "rollout.rigid",
+          "pybullet"
+        ],
+        [
+          "rollout.passive",
+          "pybullet"
+        ]
+      ],
+      "unexplained": false,
+      "causes_unchecked": false
+    },
+    {
+      "check": "file.inertia_validity",
+      "severity": "WARN",
+      "headline": "Some inertia tensors are impossible or degenerate, and engines refuse, zero or keep them",
+      "engines": [
+        "file"
+      ],
+      "hints": [
+        "Some engines regularize degenerate inertia, others fail."
+      ],
+      "explains": [],
+      "unexplained": false,
+      "causes_unchecked": false
+    }
+  ],
+  "matrix": {
+    "file.inertial": {
+      "file": "PASS"
+    },
+    "file.inertia_validity": {
+      "file": "WARN"
+    },
+    "file.limits": {
+      "file": "PASS"
+    },
+    "file.axis": {
+      "file": "PASS"
+    },
+    "file.meshes": {
+      "file": "PASS"
+    },
+    "file.joint_types": {
+      "file": "PASS"
+    },
+    "import.load": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.dofs": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.joint_order": {
+      "file": "INFO"
+    },
+    "import.multi_dof": {
+      "file": "SKIP"
+    },
+    "import.base_mode": {
+      "pinocchio": "INFO",
+      "mujoco": "INFO",
+      "pybullet": "INFO",
+      "pybullet[inertia_from_file=1]": "INFO"
+    },
+    "import.limits": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.effort_velocity": {
+      "pinocchio": "PASS",
+      "mujoco": "INFO",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.damping_friction": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.armature": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.mimic": {
+      "file": "SKIP"
+    },
+    "inertia.clusters": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "kinematics.frames": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "dynamics.mass_matrix": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "dynamics.gravity": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "dynamics.coriolis": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "rollout.rigid": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "rollout.passive_effect": {
+      "file": "SKIP"
+    },
+    "rollout.passive": {
+      "mujoco": "PASS",
+      "pybullet": "WARN",
+      "pybullet[inertia_from_file=1]": "PASS"
+    }
+  },
+  "findings": [
+    {
+      "check": "file.inertial",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "every moving link declares <inertial>",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertia_validity",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "LL_FOOT",
+      "message": "singular inertia (a principal moment is zero)",
+      "hint": "Some engines regularize degenerate inertia, others fail.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "mass": 1e-09,
+        "principal_moments": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "check": "file.inertia_validity",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "LR_FOOT",
+      "message": "singular inertia (a principal moment is zero)",
+      "hint": "Some engines regularize degenerate inertia, others fail.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "mass": 1e-09,
+        "principal_moments": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "check": "file.limits",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "no ambiguous joint ranges",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.axis",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "all joint axes are unit vectors",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.meshes",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "13 <visual> element(s) ignored; collision mesh formats: none",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.joint_types",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "12 movable joint(s), all of supported types",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.load",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "loaded (4.1.0)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "warnings": []
+      }
+    },
+    {
+      "check": "import.load",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "loaded (3.15.0)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "warnings": []
+      }
+    },
+    {
+      "check": "import.load",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "loaded (3.2.7)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "warnings": []
+      }
+    },
+    {
+      "check": "import.load",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "loaded (3.2.7)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "warnings": []
+      }
+    },
+    {
+      "check": "import.dofs",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "12/12 movable joints, types match",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.dofs",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "12/12 movable joints, types match",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.dofs",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "12/12 movable joints, types match",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.dofs",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "12/12 movable joints, types match",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.joint_order",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "all engines use the same order (depth-first, file order = depth-first, siblings sorted by name)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": [
+          "LL_FAA",
+          "LL_FFE",
+          "LL_KFE",
+          "LL_HFE",
+          "LL_HAA",
+          "LL_HR",
+          "LR_FAA",
+          "LR_FFE",
+          "LR_KFE",
+          "LR_HFE",
+          "LR_HAA",
+          "LR_HR"
+        ],
+        "conventions": {
+          "depth-first, file order": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ],
+          "depth-first, siblings sorted by name": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ],
+          "breadth-first, file order": [
+            "LL_HR",
+            "LR_HR",
+            "LL_HAA",
+            "LR_HAA",
+            "LL_HFE",
+            "LR_HFE",
+            "LL_KFE",
+            "LR_KFE",
+            "LL_FFE",
+            "LR_FFE",
+            "LL_FAA",
+            "LR_FAA"
+          ],
+          "breadth-first, siblings sorted by name": [
+            "LL_HR",
+            "LR_HR",
+            "LL_HAA",
+            "LR_HAA",
+            "LL_HFE",
+            "LR_HFE",
+            "LL_KFE",
+            "LR_KFE",
+            "LL_FFE",
+            "LR_FFE",
+            "LL_FAA",
+            "LR_FAA"
+          ],
+          "joint declaration order": [
+            "LL_FAA",
+            "LL_FFE",
+            "LL_KFE",
+            "LL_HFE",
+            "LL_HAA",
+            "LL_HR",
+            "LR_FAA",
+            "LR_FFE",
+            "LR_KFE",
+            "LR_HFE",
+            "LR_HAA",
+            "LR_HR"
+          ]
+        },
+        "engines": {
+          "pinocchio": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ],
+          "mujoco": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ],
+          "pybullet": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ],
+          "pybullet[inertia_from_file=1]": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ]
+        },
+        "follows": {
+          "pinocchio": "depth-first, file order = depth-first, siblings sorted by name",
+          "mujoco": "depth-first, file order = depth-first, siblings sorted by name",
+          "pybullet": "depth-first, file order = depth-first, siblings sorted by name",
+          "pybullet[inertia_from_file=1]": "depth-first, file order = depth-first, siblings sorted by name"
+        }
+      }
+    },
+    {
+      "check": "import.joint_order",
+      "severity": "INFO",
+      "backend": null,
+      "subject": null,
+      "message": "the tree is branched, so traversal conventions disagree (for example breadth-first, documented for Isaac Sim/PhysX, vs. depth-first); see the ordering table",
+      "hint": "Isaac Lab exposes ArticulationCfg.joint_ordering to pin an order.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": [
+          "LL_FAA",
+          "LL_FFE",
+          "LL_KFE",
+          "LL_HFE",
+          "LL_HAA",
+          "LL_HR",
+          "LR_FAA",
+          "LR_FFE",
+          "LR_KFE",
+          "LR_HFE",
+          "LR_HAA",
+          "LR_HR"
+        ],
+        "conventions": {
+          "depth-first, file order": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ],
+          "depth-first, siblings sorted by name": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ],
+          "breadth-first, file order": [
+            "LL_HR",
+            "LR_HR",
+            "LL_HAA",
+            "LR_HAA",
+            "LL_HFE",
+            "LR_HFE",
+            "LL_KFE",
+            "LR_KFE",
+            "LL_FFE",
+            "LR_FFE",
+            "LL_FAA",
+            "LR_FAA"
+          ],
+          "breadth-first, siblings sorted by name": [
+            "LL_HR",
+            "LR_HR",
+            "LL_HAA",
+            "LR_HAA",
+            "LL_HFE",
+            "LR_HFE",
+            "LL_KFE",
+            "LR_KFE",
+            "LL_FFE",
+            "LR_FFE",
+            "LL_FAA",
+            "LR_FAA"
+          ],
+          "joint declaration order": [
+            "LL_FAA",
+            "LL_FFE",
+            "LL_KFE",
+            "LL_HFE",
+            "LL_HAA",
+            "LL_HR",
+            "LR_FAA",
+            "LR_FFE",
+            "LR_KFE",
+            "LR_HFE",
+            "LR_HAA",
+            "LR_HR"
+          ]
+        },
+        "engines": {
+          "pinocchio": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ],
+          "mujoco": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ],
+          "pybullet": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ],
+          "pybullet[inertia_from_file=1]": [
+            "LL_HR",
+            "LL_HAA",
+            "LL_HFE",
+            "LL_KFE",
+            "LL_FFE",
+            "LL_FAA",
+            "LR_HR",
+            "LR_HAA",
+            "LR_HFE",
+            "LR_KFE",
+            "LR_FFE",
+            "LR_FAA"
+          ]
+        },
+        "follows": {
+          "pinocchio": "depth-first, file order = depth-first, siblings sorted by name",
+          "mujoco": "depth-first, file order = depth-first, siblings sorted by name",
+          "pybullet": "depth-first, file order = depth-first, siblings sorted by name",
+          "pybullet[inertia_from_file=1]": "depth-first, file order = depth-first, siblings sorted by name"
+        }
+      }
+    },
+    {
+      "check": "import.multi_dof",
+      "severity": "SKIP",
+      "backend": null,
+      "subject": null,
+      "message": "no floating or planar joints declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.base_mode",
+      "severity": "INFO",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "default loader gives a fixed base",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "modes": {
+          "pinocchio": "fixed",
+          "mujoco": "fixed",
+          "pybullet": "floating",
+          "pybullet[inertia_from_file=1]": "floating"
+        }
+      }
+    },
+    {
+      "check": "import.base_mode",
+      "severity": "INFO",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "default loader gives a fixed base",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "modes": {
+          "pinocchio": "fixed",
+          "mujoco": "fixed",
+          "pybullet": "floating",
+          "pybullet[inertia_from_file=1]": "floating"
+        }
+      }
+    },
+    {
+      "check": "import.base_mode",
+      "severity": "INFO",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "default loader gives a floating base",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "modes": {
+          "pinocchio": "fixed",
+          "mujoco": "fixed",
+          "pybullet": "floating",
+          "pybullet[inertia_from_file=1]": "floating"
+        }
+      }
+    },
+    {
+      "check": "import.base_mode",
+      "severity": "INFO",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "default loader gives a floating base",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "modes": {
+          "pinocchio": "fixed",
+          "mujoco": "fixed",
+          "pybullet": "floating",
+          "pybullet[inertia_from_file=1]": "floating"
+        }
+      }
+    },
+    {
+      "check": "import.limits",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "position limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.limits",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "position limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.limits",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "position limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.limits",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "position limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.effort_velocity",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "effort/velocity limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.effort_velocity",
+      "severity": "INFO",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "velocity limits are not represented by this engine (12 joint(s))",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "joints": [
+          "LL_HR",
+          "LL_HAA",
+          "LL_HFE",
+          "LL_KFE",
+          "LL_FFE",
+          "LL_FAA",
+          "LR_HR",
+          "LR_HAA",
+          "LR_HFE",
+          "LR_KFE",
+          "LR_FFE",
+          "LR_FAA"
+        ]
+      }
+    },
+    {
+      "check": "import.effort_velocity",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "effort/velocity limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.effort_velocity",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "effort/velocity limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.damping_friction",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "damping/friction read as declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.damping_friction",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "damping/friction read as declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.damping_friction",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "damping/friction read as declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.damping_friction",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "damping/friction read as declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.armature",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "armature is zero",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.armature",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "armature is zero",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.armature",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "no armature concept",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.armature",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "no armature concept",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.mimic",
+      "severity": "SKIP",
+      "backend": null,
+      "subject": null,
+      "message": "no <mimic> joints declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "12/12 moving bodies match the declared mass, COM and inertia",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "12/12 moving bodies match the declared mass, COM and inertia",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LL_HR",
+      "message": "inertia tensor rel. error 1",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.9996011392601246,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.7970000000000008,
+          "com": [
+            -0.047733000000000664,
+            0.0706379999999998,
+            -0.037585999999999016
+          ],
+          "inertia": [
+            [
+              0.0010999121146502222,
+              7.149625631249827e-06,
+              -0.0004255103655574727
+            ],
+            [
+              7.149625631249827e-06,
+              0.00124841528511096,
+              1.1609087014093002e-06
+            ],
+            [
+              -0.00042551036555747257,
+              1.1609087014093004e-06,
+              0.0013303357564729552
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.7970000000000008,
+          "com": [
+            -0.04773300000000067,
+            0.07063799999999981,
+            -0.03758599999999904
+          ],
+          "inertia": [
+            [
+              5.313333333333338e-07,
+              1.1417620532196144e-37,
+              -2.2835824444344e-25
+            ],
+            [
+              1.351794488507824e-37,
+              5.313333333333338e-07,
+              -1.7610204501552613e-37
+            ],
+            [
+              -8.777893727579489e-24,
+              -2.122923143735068e-37,
+              5.313333333333338e-07
+            ]
+          ]
+        },
+        "com_err_m": 2.5962963631595152e-17,
+        "inertia_rel_err": 0.9996011392601246,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LL_HAA",
+      "message": "inertia tensor rel. error 1.01",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 1.0144548055225142,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.8969999999999976,
+          "com": [
+            0.008849999999998442,
+            0.060264999999999985,
+            -0.0999159999999997
+          ],
+          "inertia": [
+            [
+              0.001200362667923817,
+              0.00011040585020686522,
+              0.0002559771217059333
+            ],
+            [
+              0.00011040585020686524,
+              0.0018641696668689578,
+              -0.00011175057751926496
+            ],
+            [
+              0.0002559771217059333,
+              -0.00011175057751926496,
+              0.001210215301747902
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.8969999999999976,
+          "com": [
+            0.008849999999998436,
+            0.06026500000000001,
+            -0.09991599999999971
+          ],
+          "inertia": [
+            [
+              0.0022258218834870515,
+              1.3026098568373354e-18,
+              1.0986877740294566e-19
+            ],
+            [
+              1.3026098568373352e-18,
+              0.0039828117669740955,
+              -4.423650853125996e-18
+            ],
+            [
+              -1.79350339578189e-19,
+              -4.423650853125996e-18,
+              0.002225821883487051
+            ]
+          ]
+        },
+        "com_err_m": 3.179800655392251e-17,
+        "inertia_rel_err": 1.0144548055225142,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LL_HFE",
+      "message": "inertia tensor rel. error 0.193",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.19346335747647306,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.6890000000000014,
+          "com": [
+            0.010172999999997661,
+            0.1312729999999999,
+            -0.16279600000000027
+          ],
+          "inertia": [
+            [
+              0.018188324559920522,
+              -5.4409777543794724e-05,
+              0.0001907910006190191
+            ],
+            [
+              -5.4409777543794724e-05,
+              0.01897821589445205,
+              0.0014556175188271256
+            ],
+            [
+              0.0001907910006190191,
+              0.0014556175188271256,
+              0.005994446433080951
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 2.6890000000000014,
+          "com": [
+            0.010172999999997663,
+            0.13127299999999992,
+            -0.16279600000000027
+          ],
+          "inertia": [
+            [
+              0.014387550520833575,
+              -3.604243896971528e-17,
+              -1.2515923888377549e-16
+            ],
+            [
+              -3.604243896971528e-17,
+              0.01605136927083351,
+              -8.360057716927714e-17
+            ],
+            [
+              -1.2515923888377549e-16,
+              -8.360057716927715e-17,
+              0.0057941227500002595
+            ]
+          ]
+        },
+        "com_err_m": 2.7809732887839817e-17,
+        "inertia_rel_err": 0.19346335747647306,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LL_KFE",
+      "message": "inertia tensor rel. error 0.5",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.5000955596362046,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.35,
+          "com": [
+            0.0018919999999937947,
+            0.15776800000000005,
+            -0.4087909999999999
+          ],
+          "inertia": [
+            [
+              0.00158421678938132,
+              -4.662831796518811e-06,
+              -0.00013018330729979883
+            ],
+            [
+              -4.662831796518811e-06,
+              0.0016101360290329645,
+              -8.427911363673533e-06
+            ],
+            [
+              -0.00013018330729979883,
+              -8.427911363673533e-06,
+              0.00010850320647079809
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.35,
+          "com": [
+            0.0018919999999938222,
+            0.15776800000000007,
+            -0.4087909999999999
+          ],
+          "inertia": [
+            [
+              0.0008169000000000016,
+              -4.621099799114427e-19,
+              -1.0870626621084473e-17
+            ],
+            [
+              -4.621099799114458e-19,
+              0.000795316666666668,
+              9.422111239371301e-19
+            ],
+            [
+              -1.0870626621084473e-17,
+              9.422111239371301e-19,
+              8.131666666666967e-05
+            ]
+          ]
+        },
+        "com_err_m": 3.909928277003814e-17,
+        "inertia_rel_err": 0.5000955596362046,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LL_FFE",
+      "message": "inertia tensor rel. error 0.999",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.9991330711528592,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.09932275000000006,
+          "com": [
+            0.03494299999999234,
+            0.16006800000000004,
+            -0.5041743400000005
+          ],
+          "inertia": [
+            [
+              1.1575849952206817e-05,
+              9.167777989513067e-07,
+              -1.2169715047252283e-05
+            ],
+            [
+              9.167777989513067e-07,
+              8.201510581178051e-05,
+              2.766693355096535e-07
+            ],
+            [
+              -1.2169715047252283e-05,
+              2.766693355096535e-07,
+              7.622030705455494e-05
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.09932275000000006,
+          "com": [
+            0.03494299999999239,
+            0.1600680000000001,
+            -0.5041743400000005
+          ],
+          "inertia": [
+            [
+              6.62151666666667e-08,
+              -7.351360261273914e-24,
+              -7.351360261271054e-24
+            ],
+            [
+              -7.351360261273936e-24,
+              6.62151666666667e-08,
+              -7.351360261255617e-24
+            ],
+            [
+              -7.35136026127108e-24,
+              -7.351360261255623e-24,
+              6.62151666666667e-08
+            ]
+          ]
+        },
+        "com_err_m": 7.376145397762941e-17,
+        "inertia_rel_err": 0.9991330711528592,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LL_FAA",
+      "message": "inertia tensor rel. error 0.388",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.3876487239740261,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.5070000010000006,
+          "com": [
+            0.04401099999830809,
+            0.15997100000005574,
+            -0.5194940000636957
+          ],
+          "inertia": [
+            [
+              0.00044396659789160586,
+              3.5182387734881044e-06,
+              -0.00019146081162725384
+            ],
+            [
+              3.5182387734881044e-06,
+              0.001094197216376238,
+              1.2622581356126749e-06
+            ],
+            [
+              -0.00019146081162725384,
+              1.2622581356126749e-06,
+              0.0009101859819935469
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.5070000010000006,
+          "com": [
+            0.04401099999830813,
+            0.15997100000005576,
+            -0.5194940000636958
+          ],
+          "inertia": [
+            [
+              0.0005238395108879334,
+              4.145575003160587e-17,
+              -2.7553601384296258e-14
+            ],
+            [
+              4.145575003160587e-17,
+              0.0014758038169420497,
+              9.39759651016573e-16
+            ],
+            [
+              -2.7553601384296258e-14,
+              9.39759651016573e-16,
+              0.0012561643060547852
+            ]
+          ]
+        },
+        "com_err_m": 1.2177709378935645e-16,
+        "inertia_rel_err": 0.3876487239740261,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LR_HR",
+      "message": "inertia tensor rel. error 1",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.9996011980526888,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.7969999999999969,
+          "com": [
+            -0.047732999999999574,
+            -0.07063800000000073,
+            -0.03758599999999895
+          ],
+          "inertia": [
+            [
+              0.0011002708229482137,
+              -2.5191856609424135e-06,
+              -0.0004255103655574312
+            ],
+            [
+              -2.519185660942414e-06,
+              0.001248415285110957,
+              -3.6594735044832135e-06
+            ],
+            [
+              -0.00042551036555743115,
+              -3.6594735044832135e-06,
+              0.0013306944647710282
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.7969999999999969,
+          "com": [
+            -0.04773299999999958,
+            -0.07063800000000073,
+            -0.03758599999999898
+          ],
+          "inertia": [
+            [
+              5.313333333333314e-07,
+              -1.0766553680791654e-38,
+              1.317441842199737e-24
+            ],
+            [
+              -6.578481906566148e-39,
+              5.313333333333313e-07,
+              -2.853053702874752e-38
+            ],
+            [
+              -4.030653651577443e-24,
+              7.24538994286048e-38,
+              5.313333333333314e-07
+            ]
+          ]
+        },
+        "com_err_m": 3.5381555418772973e-17,
+        "inertia_rel_err": 0.9996011980526888,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LR_HAA",
+      "message": "inertia tensor rel. error 1.01",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 1.013534962583357,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.8970000000000075,
+          "com": [
+            0.008850000000000288,
+            -0.06026499999999997,
+            -0.09991599999999932
+          ],
+          "inertia": [
+            [
+              0.0012045680138963533,
+              -0.0001129376670199743,
+              0.00026035879808497205
+            ],
+            [
+              -0.00011293766701997428,
+              0.0018651290713510976,
+              0.00011279983740306715
+            ],
+            [
+              0.000260358798084972,
+              0.00011279983740306714,
+              0.0012069692887435963
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.8970000000000075,
+          "com": [
+            0.008850000000000288,
+            -0.06026499999999997,
+            -0.09991599999999937
+          ],
+          "inertia": [
+            [
+              0.0022258218834870745,
+              4.8587979263465126e-18,
+              9.463104433706344e-20
+            ],
+            [
+              4.85879792634651e-18,
+              0.003982811766974138,
+              -1.2013280088170037e-18
+            ],
+            [
+              3.84126344279108e-20,
+              -1.2013280088170039e-18,
+              0.002225821883487074
+            ]
+          ]
+        },
+        "com_err_m": 4.163336342344337e-17,
+        "inertia_rel_err": 1.013534962583357,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LR_HFE",
+      "message": "inertia tensor rel. error 0.193",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.19339901842582805,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.6890000000000005,
+          "com": [
+            0.010172999999999457,
+            -0.13127300000000122,
+            -0.1627959999999989
+          ],
+          "inertia": [
+            [
+              0.018186321637810383,
+              5.4856004218802836e-05,
+              0.00019189741544644784
+            ],
+            [
+              5.4856004218802836e-05,
+              0.018976154384902327,
+              -0.0014560673148699297
+            ],
+            [
+              0.00019189741544644784,
+              -0.0014560673148699297,
+              0.005994409354066847
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 2.6890000000000005,
+          "com": [
+            0.010172999999999453,
+            -0.13127300000000125,
+            -0.16279599999999894
+          ],
+          "inertia": [
+            [
+              0.014387550520833374,
+              -3.3825787107651037e-17,
+              -2.053004584054854e-16
+            ],
+            [
+              -3.382578710765105e-17,
+              0.01605136927083337,
+              -1.7925835972543753e-16
+            ],
+            [
+              -2.0530045840548538e-16,
+              -1.7925835972543756e-16,
+              0.0057941227500000365
+            ]
+          ]
+        },
+        "com_err_m": 3.94053425015214e-17,
+        "inertia_rel_err": 0.19339901842582805,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LR_KFE",
+      "message": "inertia tensor rel. error 0.5",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.5000955583008995,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.35,
+          "com": [
+            0.0018919999999937214,
+            -0.15776800000000446,
+            -0.4087909999999977
+          ],
+          "inertia": [
+            [
+              0.001584216772595441,
+              4.6628220175818636e-06,
+              -0.00013018331822976808
+            ],
+            [
+              4.6628220175818636e-06,
+              0.0016101360242463368,
+              8.42812490946287e-06
+            ],
+            [
+              -0.00013018331822976808,
+              8.42812490946287e-06,
+              0.0001085031931245355
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.35,
+          "com": [
+            0.0018919999999937253,
+            -0.15776800000000443,
+            -0.4087909999999978
+          ],
+          "inertia": [
+            [
+              0.0008169000000000007,
+              4.751791552830096e-19,
+              -1.6841283922985527e-17
+            ],
+            [
+              4.7517915528300945e-19,
+              0.0007953166666666674,
+              -1.1115845281277456e-17
+            ],
+            [
+              -1.6841283922985524e-17,
+              -1.1115845281277454e-17,
+              8.131666666666685e-05
+            ]
+          ]
+        },
+        "com_err_m": 1.1450571177290616e-16,
+        "inertia_rel_err": 0.5000955583008995,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LR_FFE",
+      "message": "inertia tensor rel. error 0.999",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.9991330738432203,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.09932228000000004,
+          "com": [
+            0.0349429999999919,
+            -0.160068000000006,
+            -0.5041743399999998
+          ],
+          "inertia": [
+            [
+              1.15757184420045e-05,
+              -9.166764928938505e-07,
+              -1.2169429363958328e-05
+            ],
+            [
+              -9.166764928938505e-07,
+              8.201492674814336e-05,
+              -2.7660647920388964e-07
+            ],
+            [
+              -1.2169429363958328e-05,
+              -2.7660647920388964e-07,
+              7.622033243368034e-05
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.09932228000000004,
+          "com": [
+            0.03494299999999192,
+            -0.160068000000006,
+            -0.5041743399999999
+          ],
+          "inertia": [
+            [
+              6.621485333333339e-08,
+              -1.470265094854266e-23,
+              -1.4702650948535715e-23
+            ],
+            [
+              -1.470265094854267e-23,
+              6.621485333333339e-08,
+              -1.4702650948611223e-23
+            ],
+            [
+              -1.470265094853574e-23,
+              -1.4702650948611343e-23,
+              6.621485333333339e-08
+            ]
+          ]
+        },
+        "com_err_m": 1.1295700899707568e-16,
+        "inertia_rel_err": 0.9991330738432203,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LR_FAA",
+      "message": "inertia tensor rel. error 0.387",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.3871183183575797,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.5070000010000001,
+          "com": [
+            0.04401099999830765,
+            -0.15997100000006306,
+            -0.5194330000638102
+          ],
+          "inertia": [
+            [
+              0.00044463280089018293,
+              -3.51764857116357e-06,
+              -0.00019142590274792319
+            ],
+            [
+              -3.51764857116357e-06,
+              0.0010948634177009192,
+              -1.3506187784682535e-06
+            ],
+            [
+              -0.00019142590274792319,
+              -1.3506187784682535e-06,
+              0.0009101859698594098
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.5070000010000001,
+          "com": [
+            0.04401099999830769,
+            -0.15997100000006303,
+            -0.5194330000638103
+          ],
+          "inertia": [
+            [
+              0.0005238395108918761,
+              -5.160191989816674e-17,
+              -2.760177354690985e-14
+            ],
+            [
+              -5.160191989816674e-17,
+              0.0014758038169459912,
+              -9.39480320936414e-16
+            ],
+            [
+              -2.760177354690985e-14,
+              -9.39480320936414e-16,
+              0.0012561643060547837
+            ]
+          ]
+        },
+        "com_err_m": 1.2177709378935645e-16,
+        "inertia_rel_err": 0.3871183183575797,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "12/12 moving bodies match the declared mass, COM and inertia",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "kinematics.frames",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "12 joint frames match at 6 configurations",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_position_err_m": 2.3055512673781017e-16,
+        "max_angle_err_rad": 2.9802322387695312e-08
+      }
+    },
+    {
+      "check": "kinematics.frames",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "12 joint frames match at 6 configurations",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_position_err_m": 4.2298805164398465e-16,
+        "max_angle_err_rad": 4.2146848510894035e-08
+      }
+    },
+    {
+      "check": "kinematics.frames",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "12 joint frames match at 6 configurations",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_position_err_m": 2.8166024712587272e-08,
+        "max_angle_err_rad": 2.2302015940987762e-07
+      }
+    },
+    {
+      "check": "kinematics.frames",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "12 joint frames match at 6 configurations",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_position_err_m": 2.8166024712587272e-08,
+        "max_angle_err_rad": 2.537576312709815e-07
+      }
+    },
+    {
+      "check": "dynamics.mass_matrix",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "dynamics.mass_matrix",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 1.4e-15 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 1.4117887883799572e-15
+      }
+    },
+    {
+      "check": "dynamics.mass_matrix",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "M(q) differs from pinocchio: rel. error 0.0254 (largest at LL_HFE/LL_HFE: 0.0756346 vs 0.0790771)",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.025440807730874045,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 0.025440807730874045,
+        "sample": 3,
+        "entry": "LL_HFE/LL_HFE",
+        "engine": 0.07563461656649778,
+        "reference": 0.07907711081777108
+      }
+    },
+    {
+      "check": "dynamics.mass_matrix",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 5.8e-12 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 5.814321628474523e-12
+      }
+    },
+    {
+      "check": "dynamics.gravity",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "dynamics.gravity",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 1.1e-15 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 1.1449385244859592e-15
+      }
+    },
+    {
+      "check": "dynamics.gravity",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 7e-16 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 7.038509232184904e-16
+      }
+    },
+    {
+      "check": "dynamics.gravity",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 9.1e-16 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 9.14063186266973e-16
+      }
+    },
+    {
+      "check": "dynamics.coriolis",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "dynamics.coriolis",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 5.8e-15 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 5.8145666736046154e-15
+      }
+    },
+    {
+      "check": "dynamics.coriolis",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "C(q,qd)qd differs from pinocchio: rel. error 0.0266 (largest at LL_HAA: 0.464733 vs 0.480427)",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.026639450867976897,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 0.026639450867976897,
+        "sample": 1,
+        "entry": "LL_HAA",
+        "engine": 0.4647333540979535,
+        "reference": 0.48042713045735597
+      }
+    },
+    {
+      "check": "dynamics.coriolis",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 5.6e-12 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 5.613689798669273e-12
+      }
+    },
+    {
+      "check": "rollout.rigid",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "rollout.rigid",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "matches pinocchio (max deviation 1.8e-15 over 2 rollout(s))",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 1.7763568394002505e-15
+      }
+    },
+    {
+      "check": "rollout.rigid",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "LR_KFE",
+      "message": "deviates from pinocchio by 0.0283 at t=0.083s (tolerance 1e-05)",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.028345735535354244,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 0.028345735535354244,
+        "t": 0.083,
+        "joint": "LR_KFE"
+      }
+    },
+    {
+      "check": "rollout.rigid",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "matches pinocchio (max deviation 5.2e-11 over 2 rollout(s))",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 5.155831317438242e-11
+      }
+    },
+    {
+      "check": "rollout.passive_effect",
+      "severity": "SKIP",
+      "backend": null,
+      "subject": null,
+      "message": "the file declares no joint damping or friction",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "rollout.passive",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "baseline",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "rollout.passive",
+      "severity": "WARN",
+      "backend": "pybullet",
+      "subject": "LR_KFE",
+      "message": "deviates from mujoco by 0.0283 at t=0.083s (tolerance 0.01)",
+      "hint": null,
+      "score": 0.02834573553535602,
+      "compared_with": "mujoco",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 0.02834573553535602,
+        "t": 0.083,
+        "joint": "LR_KFE",
+        "tolerance": 0.01,
+        "passive_effect": 0.0
+      }
+    },
+    {
+      "check": "rollout.passive",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "matches mujoco (max deviation 5.2e-11 over 2 rollout(s))",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 5.155831317438242e-11,
+        "tolerance": 0.01,
+        "passive_effect": 0.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,2927 @@
+{
+  "schema": "simcompat.report/v1",
+  "tool_version": "0.2.0",
+  "created": "2026-10-10T01:19:41+00:00",
+  "verdict": "ERROR",
+  "counts": {
+    "PASS": 33,
+    "SKIP": 3,
+    "INFO": 5,
+    "WARN": 10,
+    "FAIL": 24,
+    "ERROR": 1
+  },
+  "model": {
+    "name": "mini_cheetah",
+    "input": "rd:mini_cheetah_description",
+    "label": "mini_cheetah",
+    "path": "/root/.cache/robot_descriptions/mini_cheetah_urdf/urdf/mini_cheetah.urdf",
+    "root": "body",
+    "links": 13,
+    "joints": 12,
+    "movable_joints": [
+      "torso_to_abduct_fr_j",
+      "abduct_fr_to_thigh_fr_j",
+      "thigh_fr_to_knee_fr_j",
+      "torso_to_abduct_fl_j",
+      "abduct_fl_to_thigh_fl_j",
+      "thigh_fl_to_knee_fl_j",
+      "torso_to_abduct_hr_j",
+      "abduct_hr_to_thigh_hr_j",
+      "thigh_hr_to_knee_hr_j",
+      "torso_to_abduct_hl_j",
+      "abduct_hl_to_thigh_hl_j",
+      "thigh_hl_to_knee_hl_j"
+    ],
+    "notes": [
+      "robot_descriptions model mini_cheetah_description"
+    ]
+  },
+  "reference": "pinocchio",
+  "backends": [
+    {
+      "label": "pinocchio",
+      "name": "pinocchio",
+      "ok": true,
+      "version": "4.1.0",
+      "error": null,
+      "hint": null,
+      "is_simulator": false,
+      "is_reference": true,
+      "settings": [
+        "pinocchio.buildModelFromUrdf (fixed base)",
+        "rigid rollouts: semi-implicit Euler on ABA with the shared timestep (no limits)"
+      ],
+      "defaults": {
+        "base": "fixed unless a root joint (e.g. JointModelFreeFlyer) is passed",
+        "missing <inertial>": "zero mass and inertia (the URDF specification)",
+        "mimic": "independent joint unless built with mimic=True"
+      },
+      "warnings": []
+    },
+    {
+      "label": "mujoco",
+      "name": "mujoco",
+      "ok": false,
+      "version": "3.15.0",
+      "error": "Error: inertia must satisfy A + B >= C; use 'balanceinertia' to fix\nElement name 'abduct_fr', id 2",
+      "hint": "MuJoCo rejects physically impossible inertia tensors (A + B >= C, positive eigenvalues), even on static links, while other engines accept them silently. Fix the tensor, or try `-b mujoco:balanceinertia=true`.",
+      "is_simulator": true,
+      "is_reference": false,
+      "settings": [],
+      "defaults": {},
+      "warnings": []
+    },
+    {
+      "label": "pybullet",
+      "name": "pybullet",
+      "ok": true,
+      "version": "3.2.7",
+      "error": null,
+      "hint": null,
+      "is_simulator": true,
+      "is_reference": false,
+      "settings": [
+        "loadURDF(useFixedBase=True, flags=0)",
+        "setGravity(0, 0, -9.81)  [PyBullet's default gravity is 0]",
+        "setTimeStep(0.001)",
+        "default joint velocity motors disabled (force=0)  [PyBullet holds every joint with a motor]",
+        "link linear/angular damping set to 0  [PyBullet's default is 0.04]",
+        "joint speed cap raised to 10000 rad/s  [PyBullet clamps joint speeds at 100 by default]"
+      ],
+      "defaults": {
+        "base": "floating (loadURDF useFixedBase=False)",
+        "gravity": "0 until setGravity is called",
+        "joint motors": "a velocity motor on every joint, max force = URDF effort",
+        "inertia": "recomputed from collision shapes",
+        "missing <inertial>": "mass 1 kg",
+        "mimic": "not supported by loadURDF (the joint stays independent)",
+        "floating joint": "built as a fixed joint",
+        "joint speed": "clamped at 100 rad/s"
+      },
+      "warnings": []
+    },
+    {
+      "label": "pybullet[inertia_from_file=1]",
+      "name": "pybullet",
+      "ok": true,
+      "version": "3.2.7",
+      "error": null,
+      "hint": null,
+      "is_simulator": true,
+      "is_reference": false,
+      "settings": [
+        "loadURDF(useFixedBase=True, flags=2)",
+        "setGravity(0, 0, -9.81)  [PyBullet's default gravity is 0]",
+        "setTimeStep(0.001)",
+        "default joint velocity motors disabled (force=0)  [PyBullet holds every joint with a motor]",
+        "link linear/angular damping set to 0  [PyBullet's default is 0.04]",
+        "joint speed cap raised to 10000 rad/s  [PyBullet clamps joint speeds at 100 by default]"
+      ],
+      "defaults": {
+        "base": "floating (loadURDF useFixedBase=False)",
+        "gravity": "0 until setGravity is called",
+        "joint motors": "a velocity motor on every joint, max force = URDF effort",
+        "inertia": "from the URDF",
+        "missing <inertial>": "mass 1 kg",
+        "mimic": "not supported by loadURDF (the joint stays independent)",
+        "floating joint": "built as a fixed joint",
+        "joint speed": "clamped at 100 rad/s"
+      },
+      "warnings": [
+        "importer: Bad inertia tensor properties, setting inertia to zero for link: abduct_fr, thigh_fr, thigh_fl, abduct_hr and 10 more"
+      ]
+    }
+  ],
+  "config": {
+    "tolerances": {
+      "limit_abs": 1e-06,
+      "param_rel": 1e-06,
+      "mass_rel": 1e-06,
+      "com_abs": 1e-06,
+      "inertia_rel": 1e-05,
+      "inertia_abs": 1e-09,
+      "position_abs": 1e-06,
+      "angle_abs": 1e-06,
+      "mass_matrix_rel": 1e-06,
+      "gravity_rel": 1e-06,
+      "coriolis_rel": 1e-05,
+      "torque_abs": 1e-08,
+      "rigid_rollout_abs": 1e-05,
+      "passive_rollout_abs": 0.01,
+      "passive_rollout_rel": 0.02,
+      "effect_abs": 1e-09
+    },
+    "samples": 6,
+    "rollout_samples": 2,
+    "seed": 0,
+    "dt": 0.001,
+    "duration": 0.5,
+    "severity_overrides": {}
+  },
+  "problems": [
+    {
+      "check": "import.load",
+      "severity": "ERROR",
+      "headline": "An engine refused to load the model",
+      "engines": [
+        "mujoco"
+      ],
+      "hints": [
+        "MuJoCo rejects physically impossible inertia tensors (A + B >= C, positive eigenvalues), even on static links, while other engines accept them silently. Fix the tensor, or try `-b mujoco:balanceinertia=true`."
+      ],
+      "explains": [],
+      "unexplained": false,
+      "causes_unchecked": false
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "headline": "Engines simulate different mass, center of mass or inertia than the file declares",
+      "engines": [
+        "pybullet[inertia_from_file=1]",
+        "pybullet"
+      ],
+      "hints": [
+        "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+        "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1)."
+      ],
+      "explains": [
+        [
+          "dynamics.mass_matrix",
+          "pybullet"
+        ],
+        [
+          "dynamics.mass_matrix",
+          "pybullet[inertia_from_file=1]"
+        ],
+        [
+          "dynamics.coriolis",
+          "pybullet"
+        ],
+        [
+          "dynamics.coriolis",
+          "pybullet[inertia_from_file=1]"
+        ],
+        [
+          "rollout.rigid",
+          "pybullet"
+        ],
+        [
+          "rollout.rigid",
+          "pybullet[inertia_from_file=1]"
+        ],
+        [
+          "rollout.passive",
+          "pybullet[inertia_from_file=1]"
+        ]
+      ],
+      "unexplained": false,
+      "causes_unchecked": false
+    },
+    {
+      "check": "file.inertia_validity",
+      "severity": "WARN",
+      "headline": "Some inertia tensors are impossible or degenerate, and engines refuse, zero or keep them",
+      "engines": [
+        "file"
+      ],
+      "hints": [
+        "MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensor."
+      ],
+      "explains": [],
+      "unexplained": false,
+      "causes_unchecked": false
+    },
+    {
+      "check": "file.meshes",
+      "severity": "WARN",
+      "headline": "Some collision meshes could not be found",
+      "engines": [
+        "file"
+      ],
+      "hints": [
+        "Check the mesh paths; relative paths are resolved from the URDF's directory."
+      ],
+      "explains": [],
+      "unexplained": false,
+      "causes_unchecked": false
+    },
+    {
+      "check": "import.joint_order",
+      "severity": "WARN",
+      "headline": "Engines number the joints differently",
+      "engines": [
+        "pybullet",
+        "pybullet[inertia_from_file=1]"
+      ],
+      "hints": [
+        "Map joints by name, never by index, when moving a policy between engines."
+      ],
+      "explains": [],
+      "unexplained": false,
+      "causes_unchecked": false
+    }
+  ],
+  "matrix": {
+    "file.inertial": {
+      "file": "PASS"
+    },
+    "file.inertia_validity": {
+      "file": "WARN"
+    },
+    "file.limits": {
+      "file": "PASS"
+    },
+    "file.axis": {
+      "file": "PASS"
+    },
+    "file.meshes": {
+      "file": "WARN"
+    },
+    "file.joint_types": {
+      "file": "PASS"
+    },
+    "import.load": {
+      "pinocchio": "PASS",
+      "mujoco": "ERROR",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "INFO"
+    },
+    "import.dofs": {
+      "pinocchio": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.joint_order": {
+      "pybullet": "WARN",
+      "pybullet[inertia_from_file=1]": "WARN",
+      "file": "INFO"
+    },
+    "import.multi_dof": {
+      "file": "SKIP"
+    },
+    "import.base_mode": {
+      "pinocchio": "INFO",
+      "pybullet": "INFO",
+      "pybullet[inertia_from_file=1]": "INFO"
+    },
+    "import.limits": {
+      "pinocchio": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.effort_velocity": {
+      "pinocchio": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.damping_friction": {
+      "pinocchio": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.armature": {
+      "pinocchio": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.mimic": {
+      "file": "SKIP"
+    },
+    "inertia.clusters": {
+      "pinocchio": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "FAIL"
+    },
+    "kinematics.frames": {
+      "pinocchio": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "dynamics.mass_matrix": {
+      "pinocchio": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "FAIL"
+    },
+    "dynamics.gravity": {
+      "pinocchio": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "dynamics.coriolis": {
+      "pinocchio": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "FAIL"
+    },
+    "rollout.rigid": {
+      "pinocchio": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "FAIL"
+    },
+    "rollout.passive_effect": {
+      "file": "SKIP"
+    },
+    "rollout.passive": {
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "WARN"
+    }
+  },
+  "findings": [
+    {
+      "check": "file.inertial",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "every moving link declares <inertial>",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertia_validity",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "abduct_fr",
+      "message": "principal moments violate the triangle inequality (0.000249 + 0.000306 < 0.000838)",
+      "hint": "MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensor.",
+      "score": 2.0002837840992016,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "mass": 0.54,
+        "principal_moments": [
+          0.0002489932718959532,
+          0.0003056146785031766,
+          0.0008383920496008698
+        ]
+      }
+    },
+    {
+      "check": "file.inertia_validity",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "thigh_fr",
+      "message": "principal moments violate the triangle inequality (2.84e-05 + 0.000519 < 0.00212)",
+      "hint": "MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensor.",
+      "score": 2.0015692165301595,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "mass": 0.634,
+        "principal_moments": [
+          2.835249178521391e-05,
+          0.0005185392431351349,
+          0.0021161082650796516
+        ]
+      }
+    },
+    {
+      "check": "file.inertia_validity",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "thigh_fl",
+      "message": "principal moments violate the triangle inequality (0.000408 + 0.00179 < 0.0023)",
+      "hint": "MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensor.",
+      "score": 2.000096569731922,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "mass": 0.634,
+        "principal_moments": [
+          0.0004078925412357755,
+          0.0017908225928030745,
+          0.0022952848659611516
+        ]
+      }
+    },
+    {
+      "check": "file.inertia_validity",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "abduct_hr",
+      "message": "principal moments violate the triangle inequality (0.000249 + 0.000306 < 0.000838)",
+      "hint": "MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensor.",
+      "score": 2.0002837840992016,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "mass": 0.54,
+        "principal_moments": [
+          0.0002489932718959532,
+          0.0003056146785031766,
+          0.0008383920496008698
+        ]
+      }
+    },
+    {
+      "check": "file.inertia_validity",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "thigh_hr",
+      "message": "principal moments violate the triangle inequality (2.84e-05 + 0.000519 < 0.00212)",
+      "hint": "MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensor.",
+      "score": 2.0015692165301595,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "mass": 0.634,
+        "principal_moments": [
+          2.835249178521391e-05,
+          0.0005185392431351349,
+          0.0021161082650796516
+        ]
+      }
+    },
+    {
+      "check": "file.inertia_validity",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "thigh_hl",
+      "message": "principal moments violate the triangle inequality (0.000408 + 0.00179 < 0.0023)",
+      "hint": "MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensor.",
+      "score": 2.000096569731922,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "mass": 0.634,
+        "principal_moments": [
+          0.0004078925412357755,
+          0.0017908225928030745,
+          0.0022952848659611516
+        ]
+      }
+    },
+    {
+      "check": "file.limits",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "no ambiguous joint ranges",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.axis",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "all joint axes are unit vectors",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.meshes",
+      "severity": "WARN",
+      "backend": null,
+      "subject": null,
+      "message": "4 collision mesh(es) not found: meshes/mini_abad.obj, meshes/mini_body.obj, meshes/mini_lower_link.obj and 1 more",
+      "hint": "Check the mesh paths; relative paths are resolved from the URDF's directory.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "unresolved": [
+          "meshes/mini_abad.obj",
+          "meshes/mini_body.obj",
+          "meshes/mini_lower_link.obj",
+          "meshes/mini_upper_link.obj"
+        ],
+        "packages": []
+      }
+    },
+    {
+      "check": "file.meshes",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "13 <visual> element(s) ignored; collision mesh formats: .obj",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.joint_types",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "12 movable joint(s), all of supported types",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.load",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "loaded (4.1.0)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "warnings": []
+      }
+    },
+    {
+      "check": "import.load",
+      "severity": "ERROR",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "Error: inertia must satisfy A + B >= C; use 'balanceinertia' to fix\nElement name 'abduct_fr', id 2",
+      "hint": "MuJoCo rejects physically impossible inertia tensors (A + B >= C, positive eigenvalues), even on static links, while other engines accept them silently. Fix the tensor, or try `-b mujoco:balanceinertia=true`.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.load",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "loaded (3.2.7)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "warnings": []
+      }
+    },
+    {
+      "check": "import.load",
+      "severity": "INFO",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "loaded (3.2.7); 1 importer message(s)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "warnings": [
+          "importer: Bad inertia tensor properties, setting inertia to zero for link: abduct_fr, thigh_fr, thigh_fl, abduct_hr and 10 more"
+        ]
+      }
+    },
+    {
+      "check": "import.dofs",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "12/12 movable joints, types match",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.dofs",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "12/12 movable joints, types match",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.dofs",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "12/12 movable joints, types match",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.joint_order",
+      "severity": "WARN",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "12 of 12 joint indices differ from pinocchio (pybullet: depth-first, file order; pinocchio: depth-first, siblings sorted by name)",
+      "hint": "Map joints by name, never by index, when moving a policy between engines.",
+      "score": 12,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": [
+          "torso_to_abduct_fr_j",
+          "abduct_fr_to_thigh_fr_j",
+          "thigh_fr_to_knee_fr_j",
+          "torso_to_abduct_fl_j",
+          "abduct_fl_to_thigh_fl_j",
+          "thigh_fl_to_knee_fl_j",
+          "torso_to_abduct_hr_j",
+          "abduct_hr_to_thigh_hr_j",
+          "thigh_hr_to_knee_hr_j",
+          "torso_to_abduct_hl_j",
+          "abduct_hl_to_thigh_hl_j",
+          "thigh_hl_to_knee_hl_j"
+        ],
+        "conventions": {
+          "depth-first, file order": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ],
+          "depth-first, siblings sorted by name": [
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j"
+          ],
+          "breadth-first, file order": [
+            "torso_to_abduct_fr_j",
+            "torso_to_abduct_fl_j",
+            "torso_to_abduct_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_fr_to_thigh_fr_j",
+            "abduct_fl_to_thigh_fl_j",
+            "abduct_hr_to_thigh_hr_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_fr_to_knee_fr_j",
+            "thigh_fl_to_knee_fl_j",
+            "thigh_hr_to_knee_hr_j",
+            "thigh_hl_to_knee_hl_j"
+          ],
+          "breadth-first, siblings sorted by name": [
+            "torso_to_abduct_fl_j",
+            "torso_to_abduct_fr_j",
+            "torso_to_abduct_hl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_fl_to_thigh_fl_j",
+            "abduct_fr_to_thigh_fr_j",
+            "abduct_hl_to_thigh_hl_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_fl_to_knee_fl_j",
+            "thigh_fr_to_knee_fr_j",
+            "thigh_hl_to_knee_hl_j",
+            "thigh_hr_to_knee_hr_j"
+          ],
+          "joint declaration order": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ]
+        },
+        "engines": {
+          "pinocchio": [
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j"
+          ],
+          "pybullet": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ],
+          "pybullet[inertia_from_file=1]": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ]
+        },
+        "follows": {
+          "pinocchio": "depth-first, siblings sorted by name",
+          "pybullet": "depth-first, file order",
+          "pybullet[inertia_from_file=1]": "depth-first, file order"
+        }
+      }
+    },
+    {
+      "check": "import.joint_order",
+      "severity": "WARN",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "12 of 12 joint indices differ from pinocchio (pybullet[inertia_from_file=1]: depth-first, file order; pinocchio: depth-first, siblings sorted by name)",
+      "hint": "Map joints by name, never by index, when moving a policy between engines.",
+      "score": 12,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": [
+          "torso_to_abduct_fr_j",
+          "abduct_fr_to_thigh_fr_j",
+          "thigh_fr_to_knee_fr_j",
+          "torso_to_abduct_fl_j",
+          "abduct_fl_to_thigh_fl_j",
+          "thigh_fl_to_knee_fl_j",
+          "torso_to_abduct_hr_j",
+          "abduct_hr_to_thigh_hr_j",
+          "thigh_hr_to_knee_hr_j",
+          "torso_to_abduct_hl_j",
+          "abduct_hl_to_thigh_hl_j",
+          "thigh_hl_to_knee_hl_j"
+        ],
+        "conventions": {
+          "depth-first, file order": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ],
+          "depth-first, siblings sorted by name": [
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j"
+          ],
+          "breadth-first, file order": [
+            "torso_to_abduct_fr_j",
+            "torso_to_abduct_fl_j",
+            "torso_to_abduct_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_fr_to_thigh_fr_j",
+            "abduct_fl_to_thigh_fl_j",
+            "abduct_hr_to_thigh_hr_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_fr_to_knee_fr_j",
+            "thigh_fl_to_knee_fl_j",
+            "thigh_hr_to_knee_hr_j",
+            "thigh_hl_to_knee_hl_j"
+          ],
+          "breadth-first, siblings sorted by name": [
+            "torso_to_abduct_fl_j",
+            "torso_to_abduct_fr_j",
+            "torso_to_abduct_hl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_fl_to_thigh_fl_j",
+            "abduct_fr_to_thigh_fr_j",
+            "abduct_hl_to_thigh_hl_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_fl_to_knee_fl_j",
+            "thigh_fr_to_knee_fr_j",
+            "thigh_hl_to_knee_hl_j",
+            "thigh_hr_to_knee_hr_j"
+          ],
+          "joint declaration order": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ]
+        },
+        "engines": {
+          "pinocchio": [
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j"
+          ],
+          "pybullet": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ],
+          "pybullet[inertia_from_file=1]": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ]
+        },
+        "follows": {
+          "pinocchio": "depth-first, siblings sorted by name",
+          "pybullet": "depth-first, file order",
+          "pybullet[inertia_from_file=1]": "depth-first, file order"
+        }
+      }
+    },
+    {
+      "check": "import.joint_order",
+      "severity": "INFO",
+      "backend": null,
+      "subject": null,
+      "message": "the tree is branched, so traversal conventions disagree (for example breadth-first, documented for Isaac Sim/PhysX, vs. depth-first); see the ordering table",
+      "hint": "Isaac Lab exposes ArticulationCfg.joint_ordering to pin an order.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": [
+          "torso_to_abduct_fr_j",
+          "abduct_fr_to_thigh_fr_j",
+          "thigh_fr_to_knee_fr_j",
+          "torso_to_abduct_fl_j",
+          "abduct_fl_to_thigh_fl_j",
+          "thigh_fl_to_knee_fl_j",
+          "torso_to_abduct_hr_j",
+          "abduct_hr_to_thigh_hr_j",
+          "thigh_hr_to_knee_hr_j",
+          "torso_to_abduct_hl_j",
+          "abduct_hl_to_thigh_hl_j",
+          "thigh_hl_to_knee_hl_j"
+        ],
+        "conventions": {
+          "depth-first, file order": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ],
+          "depth-first, siblings sorted by name": [
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j"
+          ],
+          "breadth-first, file order": [
+            "torso_to_abduct_fr_j",
+            "torso_to_abduct_fl_j",
+            "torso_to_abduct_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_fr_to_thigh_fr_j",
+            "abduct_fl_to_thigh_fl_j",
+            "abduct_hr_to_thigh_hr_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_fr_to_knee_fr_j",
+            "thigh_fl_to_knee_fl_j",
+            "thigh_hr_to_knee_hr_j",
+            "thigh_hl_to_knee_hl_j"
+          ],
+          "breadth-first, siblings sorted by name": [
+            "torso_to_abduct_fl_j",
+            "torso_to_abduct_fr_j",
+            "torso_to_abduct_hl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_fl_to_thigh_fl_j",
+            "abduct_fr_to_thigh_fr_j",
+            "abduct_hl_to_thigh_hl_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_fl_to_knee_fl_j",
+            "thigh_fr_to_knee_fr_j",
+            "thigh_hl_to_knee_hl_j",
+            "thigh_hr_to_knee_hr_j"
+          ],
+          "joint declaration order": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ]
+        },
+        "engines": {
+          "pinocchio": [
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j"
+          ],
+          "pybullet": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ],
+          "pybullet[inertia_from_file=1]": [
+            "torso_to_abduct_fr_j",
+            "abduct_fr_to_thigh_fr_j",
+            "thigh_fr_to_knee_fr_j",
+            "torso_to_abduct_fl_j",
+            "abduct_fl_to_thigh_fl_j",
+            "thigh_fl_to_knee_fl_j",
+            "torso_to_abduct_hr_j",
+            "abduct_hr_to_thigh_hr_j",
+            "thigh_hr_to_knee_hr_j",
+            "torso_to_abduct_hl_j",
+            "abduct_hl_to_thigh_hl_j",
+            "thigh_hl_to_knee_hl_j"
+          ]
+        },
+        "follows": {
+          "pinocchio": "depth-first, siblings sorted by name",
+          "pybullet": "depth-first, file order",
+          "pybullet[inertia_from_file=1]": "depth-first, file order"
+        }
+      }
+    },
+    {
+      "check": "import.multi_dof",
+      "severity": "SKIP",
+      "backend": null,
+      "subject": null,
+      "message": "no floating or planar joints declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.base_mode",
+      "severity": "INFO",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "default loader gives a fixed base",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "modes": {
+          "pinocchio": "fixed",
+          "pybullet": "floating",
+          "pybullet[inertia_from_file=1]": "floating"
+        }
+      }
+    },
+    {
+      "check": "import.base_mode",
+      "severity": "INFO",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "default loader gives a floating base",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "modes": {
+          "pinocchio": "fixed",
+          "pybullet": "floating",
+          "pybullet[inertia_from_file=1]": "floating"
+        }
+      }
+    },
+    {
+      "check": "import.base_mode",
+      "severity": "INFO",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "default loader gives a floating base",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "modes": {
+          "pinocchio": "fixed",
+          "pybullet": "floating",
+          "pybullet[inertia_from_file=1]": "floating"
+        }
+      }
+    },
+    {
+      "check": "import.limits",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "position limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.limits",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "position limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.limits",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "position limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.effort_velocity",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "effort/velocity limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.effort_velocity",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "effort/velocity limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.effort_velocity",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "effort/velocity limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.damping_friction",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "damping/friction read as declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.damping_friction",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "damping/friction read as declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.damping_friction",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "damping/friction read as declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.armature",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "armature is zero",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.armature",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "no armature concept",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.armature",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "no armature concept",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.mimic",
+      "severity": "SKIP",
+      "backend": null,
+      "subject": null,
+      "message": "no <mimic> joints declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "12/12 moving bodies match the declared mass, COM and inertia",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "torso_to_abduct_fr_j",
+      "message": "inertia tensor rel. error 0.999",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 0.9994157840687019,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.54,
+          "com": [
+            0.19,
+            -0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              0.000312,
+              5.8e-05,
+              -4.5e-07
+            ],
+            [
+              5.8e-05,
+              0.000832,
+              9.5e-07
+            ],
+            [
+              -4.5e-07,
+              9.5e-07,
+              0.000249
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.54,
+          "com": [
+            0.19,
+            -0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              3.6000000000000005e-07,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              3.6000000000000005e-07,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              3.6000000000000005e-07
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 0.9994157840687019,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "abduct_fr"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "abduct_fr_to_thigh_fr_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 0.9997629483280476,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.634,
+          "com": [
+            0.19,
+            -0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              0.000264,
+              0.000245,
+              -1.3e-05
+            ],
+            [
+              0.000245,
+              0.000306,
+              0.000204
+            ],
+            [
+              -1.3e-05,
+              0.000204,
+              0.002093
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.634,
+          "com": [
+            0.19,
+            -0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              4.226666666666667e-07,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              4.226666666666667e-07,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              4.226666666666667e-07
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 0.9997629483280476,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "thigh_fr"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "thigh_fr_to_knee_fr_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.9998248689980503,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.064,
+          "com": [
+            0.19,
+            -0.111,
+            -0.418
+          ],
+          "inertia": [
+            [
+              0.000245,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.000248,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              6e-06
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.064,
+          "com": [
+            0.19,
+            -0.111,
+            -0.41800000000000004
+          ],
+          "inertia": [
+            [
+              4.2666666666666665e-08,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              4.2666666666666665e-08,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              4.2666666666666665e-08
+            ]
+          ]
+        },
+        "com_err_m": 5.551115123125783e-17,
+        "inertia_rel_err": 0.9998248689980503,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "torso_to_abduct_fl_j",
+      "message": "inertia tensor rel. error 0.999",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.9992475509978355,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.54,
+          "com": [
+            0.19,
+            0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              0.000381,
+              5.8e-05,
+              4.5e-07
+            ],
+            [
+              5.8e-05,
+              0.00056,
+              9.5e-07
+            ],
+            [
+              4.5e-07,
+              9.5e-07,
+              0.000444
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.54,
+          "com": [
+            0.19,
+            0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              3.6000000000000005e-07,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              3.6000000000000005e-07,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              3.6000000000000005e-07
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 0.9992475509978355,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "abduct_fl_to_thigh_fl_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 0.9997802061180855,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.634,
+          "com": [
+            0.19,
+            0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              0.001983,
+              0.000245,
+              1.3e-05
+            ],
+            [
+              0.000245,
+              0.002103,
+              1.5e-06
+            ],
+            [
+              1.3e-05,
+              1.5e-06,
+              0.000408
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.634,
+          "com": [
+            0.19,
+            0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              4.226666666666667e-07,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              4.226666666666667e-07,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              4.226666666666667e-07
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 0.9997802061180855,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "thigh_fl"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "thigh_fl_to_knee_fl_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.9998248689980503,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.064,
+          "com": [
+            0.19,
+            0.111,
+            -0.418
+          ],
+          "inertia": [
+            [
+              0.000245,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.000248,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              6e-06
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.064,
+          "com": [
+            0.19,
+            0.111,
+            -0.41800000000000004
+          ],
+          "inertia": [
+            [
+              4.2666666666666665e-08,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              4.2666666666666665e-08,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              4.2666666666666665e-08
+            ]
+          ]
+        },
+        "com_err_m": 5.551115123125783e-17,
+        "inertia_rel_err": 0.9998248689980503,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "torso_to_abduct_hr_j",
+      "message": "inertia tensor rel. error 0.999",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 0.9994157840687019,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.54,
+          "com": [
+            -0.19,
+            -0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              0.000312,
+              5.8e-05,
+              -4.5e-07
+            ],
+            [
+              5.8e-05,
+              0.000832,
+              9.5e-07
+            ],
+            [
+              -4.5e-07,
+              9.5e-07,
+              0.000249
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.54,
+          "com": [
+            -0.19,
+            -0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              3.6000000000000005e-07,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              3.6000000000000005e-07,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              3.6000000000000005e-07
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 0.9994157840687019,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "abduct_hr"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "abduct_hr_to_thigh_hr_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 0.9997629483280476,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.634,
+          "com": [
+            -0.19,
+            -0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              0.000264,
+              0.000245,
+              -1.3e-05
+            ],
+            [
+              0.000245,
+              0.000306,
+              0.000204
+            ],
+            [
+              -1.3e-05,
+              0.000204,
+              0.002093
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.634,
+          "com": [
+            -0.19,
+            -0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              4.226666666666667e-07,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              4.226666666666667e-07,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              4.226666666666667e-07
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 0.9997629483280476,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "thigh_hr"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "thigh_hr_to_knee_hr_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.9998248689980503,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.064,
+          "com": [
+            -0.19,
+            -0.111,
+            -0.418
+          ],
+          "inertia": [
+            [
+              0.000245,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.000248,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              6e-06
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.064,
+          "com": [
+            -0.19,
+            -0.111,
+            -0.41800000000000004
+          ],
+          "inertia": [
+            [
+              4.2666666666666665e-08,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              4.2666666666666665e-08,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              4.2666666666666665e-08
+            ]
+          ]
+        },
+        "com_err_m": 5.551115123125783e-17,
+        "inertia_rel_err": 0.9998248689980503,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "torso_to_abduct_hl_j",
+      "message": "inertia tensor rel. error 0.999",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.9992475509978355,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.54,
+          "com": [
+            -0.19,
+            0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              0.000381,
+              5.8e-05,
+              4.5e-07
+            ],
+            [
+              5.8e-05,
+              0.00056,
+              9.5e-07
+            ],
+            [
+              4.5e-07,
+              9.5e-07,
+              0.000444
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.54,
+          "com": [
+            -0.19,
+            0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              3.6000000000000005e-07,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              3.6000000000000005e-07,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              3.6000000000000005e-07
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 0.9992475509978355,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "abduct_hl_to_thigh_hl_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 0.9997802061180855,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.634,
+          "com": [
+            -0.19,
+            0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              0.001983,
+              0.000245,
+              1.3e-05
+            ],
+            [
+              0.000245,
+              0.002103,
+              1.5e-06
+            ],
+            [
+              1.3e-05,
+              1.5e-06,
+              0.000408
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.634,
+          "com": [
+            -0.19,
+            0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              4.226666666666667e-07,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              4.226666666666667e-07,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              4.226666666666667e-07
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 0.9997802061180855,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "thigh_hl"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "thigh_hl_to_knee_hl_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.9998248689980503,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.064,
+          "com": [
+            -0.19,
+            0.111,
+            -0.418
+          ],
+          "inertia": [
+            [
+              0.000245,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.000248,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              6e-06
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.064,
+          "com": [
+            -0.19,
+            0.111,
+            -0.41800000000000004
+          ],
+          "inertia": [
+            [
+              4.2666666666666665e-08,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              4.2666666666666665e-08,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              4.2666666666666665e-08
+            ]
+          ]
+        },
+        "com_err_m": 5.551115123125783e-17,
+        "inertia_rel_err": 0.9998248689980503,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "torso_to_abduct_fr_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 1.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.54,
+          "com": [
+            0.19,
+            -0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              0.000312,
+              5.8e-05,
+              -4.5e-07
+            ],
+            [
+              5.8e-05,
+              0.000832,
+              9.5e-07
+            ],
+            [
+              -4.5e-07,
+              9.5e-07,
+              0.000249
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.54,
+          "com": [
+            0.19,
+            -0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 1.0,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "abduct_fr"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "abduct_fr_to_thigh_fr_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 1.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.634,
+          "com": [
+            0.19,
+            -0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              0.000264,
+              0.000245,
+              -1.3e-05
+            ],
+            [
+              0.000245,
+              0.000306,
+              0.000204
+            ],
+            [
+              -1.3e-05,
+              0.000204,
+              0.002093
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.634,
+          "com": [
+            0.19,
+            -0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 1.0,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "thigh_fr"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "abduct_fl_to_thigh_fl_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 1.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.634,
+          "com": [
+            0.19,
+            0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              0.001983,
+              0.000245,
+              1.3e-05
+            ],
+            [
+              0.000245,
+              0.002103,
+              1.5e-06
+            ],
+            [
+              1.3e-05,
+              1.5e-06,
+              0.000408
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.634,
+          "com": [
+            0.19000000000000003,
+            0.127,
+            -0.019999999999999993
+          ],
+          "inertia": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "com_err_m": 2.8609792490763984e-17,
+        "inertia_rel_err": 1.0,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "thigh_fl"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "torso_to_abduct_hr_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 1.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.54,
+          "com": [
+            -0.19,
+            -0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              0.000312,
+              5.8e-05,
+              -4.5e-07
+            ],
+            [
+              5.8e-05,
+              0.000832,
+              9.5e-07
+            ],
+            [
+              -4.5e-07,
+              9.5e-07,
+              0.000249
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.54,
+          "com": [
+            -0.19,
+            -0.08499999999999999,
+            0.0
+          ],
+          "inertia": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 1.0,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "abduct_hr"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "abduct_hr_to_thigh_hr_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 1.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.634,
+          "com": [
+            -0.19,
+            -0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              0.000264,
+              0.000245,
+              -1.3e-05
+            ],
+            [
+              0.000245,
+              0.000306,
+              0.000204
+            ],
+            [
+              -1.3e-05,
+              0.000204,
+              0.002093
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.634,
+          "com": [
+            -0.19,
+            -0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "com_err_m": 0.0,
+        "inertia_rel_err": 1.0,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "thigh_hr"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "abduct_hl_to_thigh_hl_j",
+      "message": "inertia tensor rel. error 1",
+      "hint": "These bodies include links whose inertia tensor is not physical, or on the edge of it (listed under file.inertia_validity); MuJoCo refuses such tensors, PyBullet sets them to zero, Pinocchio keeps them. Fix the tensors.",
+      "score": 1.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.634,
+          "com": [
+            -0.19,
+            0.127,
+            -0.02
+          ],
+          "inertia": [
+            [
+              0.001983,
+              0.000245,
+              1.3e-05
+            ],
+            [
+              0.000245,
+              0.002103,
+              1.5e-06
+            ],
+            [
+              1.3e-05,
+              1.5e-06,
+              0.000408
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.634,
+          "com": [
+            -0.19,
+            0.12699999999999997,
+            -0.019999999999999993
+          ],
+          "inertia": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "com_err_m": 2.8609792490763984e-17,
+        "inertia_rel_err": 1.0,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [
+          "thigh_hl"
+        ],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "kinematics.frames",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "12 joint frames match at 6 configurations",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_position_err_m": 3.1031676915590914e-17,
+        "max_angle_err_rad": 2.1073424255447017e-08
+      }
+    },
+    {
+      "check": "kinematics.frames",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "12 joint frames match at 6 configurations",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_position_err_m": 5.4590670204056824e-08,
+        "max_angle_err_rad": 3.9705373628360974e-07
+      }
+    },
+    {
+      "check": "kinematics.frames",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "12 joint frames match at 6 configurations",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_position_err_m": 5.4590670204056824e-08,
+        "max_angle_err_rad": 3.9705373628360974e-07
+      }
+    },
+    {
+      "check": "dynamics.mass_matrix",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "dynamics.mass_matrix",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "M(q) differs from pinocchio: rel. error 0.237 (largest at torso_to_abduct_fr_j/torso_to_abduct_fr_j: 0.00498055 vs 0.00739258)",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.23684884965373043,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 0.23684884965373043,
+        "sample": 1,
+        "entry": "torso_to_abduct_fr_j/torso_to_abduct_fr_j",
+        "engine": 0.004980551165575222,
+        "reference": 0.0073925760146596325
+      }
+    },
+    {
+      "check": "dynamics.mass_matrix",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "M(q) differs from pinocchio: rel. error 0.213 (largest at torso_to_abduct_hr_j/torso_to_abduct_hr_j: 0.00481905 vs 0.00719717)",
+      "hint": null,
+      "score": 0.21315485588209604,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 0.21315485588209604,
+        "sample": 1,
+        "entry": "torso_to_abduct_hr_j/torso_to_abduct_hr_j",
+        "engine": 0.004819048775746858,
+        "reference": 0.007197174129388884
+      }
+    },
+    {
+      "check": "dynamics.gravity",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "dynamics.gravity",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 5.5e-17 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 5.518804652651561e-17
+      }
+    },
+    {
+      "check": "dynamics.gravity",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 2.2e-16 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 2.196682529648807e-16
+      }
+    },
+    {
+      "check": "dynamics.coriolis",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "dynamics.coriolis",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "C(q,qd)qd differs from pinocchio: rel. error 0.386 (largest at abduct_fr_to_thigh_fr_j: 0.000659677 vs 0.00471863)",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.38635499326436096,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 0.38635499326436096,
+        "sample": 4,
+        "entry": "abduct_fr_to_thigh_fr_j",
+        "engine": 0.0006596770445794903,
+        "reference": 0.0047186277089045214
+      }
+    },
+    {
+      "check": "dynamics.coriolis",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "C(q,qd)qd differs from pinocchio: rel. error 0.422 (largest at abduct_fr_to_thigh_fr_j: 0.000176832 vs 0.00471863)",
+      "hint": null,
+      "score": 0.421698243796886,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 0.421698243796886,
+        "sample": 4,
+        "entry": "abduct_fr_to_thigh_fr_j",
+        "engine": 0.00017683209369130648,
+        "reference": 0.0047186277089045214
+      }
+    },
+    {
+      "check": "rollout.rigid",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "rollout.rigid",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "thigh_hl_to_knee_hl_j",
+      "message": "deviates from pinocchio by 2.12 at t=0.500s (tolerance 1e-05)",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 2.120910012224588,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 2.120910012224588,
+        "t": 0.5,
+        "joint": "thigh_hl_to_knee_hl_j"
+      }
+    },
+    {
+      "check": "rollout.rigid",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "thigh_hr_to_knee_hr_j",
+      "message": "deviates from pinocchio by 2.34 at t=0.500s (tolerance 1e-05)",
+      "hint": null,
+      "score": 2.3439661446183218,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 2.3439661446183218,
+        "t": 0.5,
+        "joint": "thigh_hr_to_knee_hr_j"
+      }
+    },
+    {
+      "check": "rollout.passive_effect",
+      "severity": "SKIP",
+      "backend": null,
+      "subject": null,
+      "message": "the file declares no joint damping or friction",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "rollout.passive",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "baseline",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "rollout.passive",
+      "severity": "WARN",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "thigh_hr_to_knee_hr_j",
+      "message": "deviates from pybullet by 2.02 at t=0.500s (tolerance 0.01)",
+      "hint": null,
+      "score": 2.0159908120593535,
+      "compared_with": "pybullet",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 2.0159908120593535,
+        "t": 0.5,
+        "joint": "thigh_hr_to_knee_hr_j",
+        "tolerance": 0.01,
+        "passive_effect": 0.0
+      }
+    }
+  ]
+}

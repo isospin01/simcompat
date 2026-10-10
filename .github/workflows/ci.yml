@@ -1,0 +1,25 @@
+name: ci
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 6 * * 1"   # weekly: catch behaviour changes in new engine releases
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e ".[dev]"
+      - run: ruff check . && ruff format --check .
+      - run: pytest -q
+      - name: Self-check on the clean fixture (must pass)
+        run: simcompat check tests/fixtures/arm6.urdf -b pinocchio -b mujoco -b pybullet:inertia_from_file=1
+      - name: Report on the divergent fixture (expected to fail; shown in the job summary)
+        run: simcompat check tests/fixtures/divergent.urdf -o divergent.html || true

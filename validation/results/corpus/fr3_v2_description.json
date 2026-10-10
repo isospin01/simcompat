@@ -1,0 +1,2872 @@
+{
+  "schema": "simcompat.report/v1",
+  "tool_version": "0.2.0",
+  "created": "2026-10-10T01:19:11+00:00",
+  "verdict": "FAIL",
+  "counts": {
+    "PASS": 48,
+    "SKIP": 1,
+    "INFO": 9,
+    "WARN": 14,
+    "FAIL": 25,
+    "ERROR": 0
+  },
+  "model": {
+    "name": "fr3v2",
+    "input": "rd:fr3_v2_description",
+    "label": "fr3_v2",
+    "path": "/root/.cache/robot_descriptions/xacrodoc/fr3_v2_description/fr3_v2_description-eb5f34b8a769b09d.urdf",
+    "root": "base",
+    "links": 26,
+    "joints": 25,
+    "movable_joints": [
+      "fr3v2_joint1",
+      "fr3v2_joint2",
+      "fr3v2_joint3",
+      "fr3v2_joint4",
+      "fr3v2_joint5",
+      "fr3v2_joint6",
+      "fr3v2_joint7",
+      "fr3v2_finger_joint1",
+      "fr3v2_finger_joint2"
+    ],
+    "notes": [
+      "robot_descriptions model fr3_v2_description",
+      "expanded fr3v2.urdf.xacro with xacrodoc"
+    ]
+  },
+  "reference": "pinocchio",
+  "backends": [
+    {
+      "label": "pinocchio",
+      "name": "pinocchio",
+      "ok": true,
+      "version": "4.1.0",
+      "error": null,
+      "hint": null,
+      "is_simulator": false,
+      "is_reference": true,
+      "settings": [
+        "pinocchio.buildModelFromUrdf (fixed base)",
+        "rigid rollouts: semi-implicit Euler on ABA with the shared timestep (no limits)"
+      ],
+      "defaults": {
+        "base": "fixed unless a root joint (e.g. JointModelFreeFlyer) is passed",
+        "missing <inertial>": "zero mass and inertia (the URDF specification)",
+        "mimic": "independent joint unless built with mimic=True"
+      },
+      "warnings": []
+    },
+    {
+      "label": "mujoco",
+      "name": "mujoco",
+      "ok": true,
+      "version": "3.15.0",
+      "error": null,
+      "hint": null,
+      "is_simulator": true,
+      "is_reference": false,
+      "settings": [
+        "loaded with MuJoCo's URDF importer (MjModel.from_xml_path)",
+        "<compiler strippath='false'> injected (mesh file resolution only)",
+        "timestep = 0.001",
+        "rollouts: contacts disabled; integrator left at the model default"
+      ],
+      "defaults": {
+        "base": "fixed (the root link is welded to the world unless a 'floating' joint is declared)",
+        "fusestatic": "true for URDF (bodies joined by fixed joints are merged)",
+        "velocity limit": "not represented (MuJoCo has no joint velocity limit)",
+        "effort limit": "mapped to the joint's actuatorfrcrange",
+        "missing <inertial>": "mass and inertia inferred from collision geometry (inertiafromgeom=auto)"
+      },
+      "warnings": []
+    },
+    {
+      "label": "pybullet",
+      "name": "pybullet",
+      "ok": true,
+      "version": "3.2.7",
+      "error": null,
+      "hint": null,
+      "is_simulator": true,
+      "is_reference": false,
+      "settings": [
+        "loadURDF(useFixedBase=True, flags=0)",
+        "setGravity(0, 0, -9.81)  [PyBullet's default gravity is 0]",
+        "setTimeStep(0.001)",
+        "default joint velocity motors disabled (force=0)  [PyBullet holds every joint with a motor]",
+        "link linear/angular damping set to 0  [PyBullet's default is 0.04]",
+        "joint speed cap raised to 10000 rad/s  [PyBullet clamps joint speeds at 100 by default]"
+      ],
+      "defaults": {
+        "base": "floating (loadURDF useFixedBase=False)",
+        "gravity": "0 until setGravity is called",
+        "joint motors": "a velocity motor on every joint, max force = URDF effort",
+        "inertia": "recomputed from collision shapes",
+        "missing <inertial>": "mass 1 kg",
+        "mimic": "not supported by loadURDF (the joint stays independent)",
+        "floating joint": "built as a fixed joint",
+        "joint speed": "clamped at 100 rad/s"
+      },
+      "warnings": [
+        "importer: No inertial data for link, using mass=1, localinertiadiagonal = 1,1,1, identity local inertial frame: base, fr3v2_link0_accelerometer_top, fr3v2_link0_accelerometer_bottom, fr3v2_link1_accelerometer_top, fr3v2_link1_accelerometer_bottom, fr3v2_link2_accelerometer_top, fr3v2_link2_accelerometer_bottom, fr3v2_link3_accelerometer_top and 7 more"
+      ]
+    },
+    {
+      "label": "pybullet[inertia_from_file=1]",
+      "name": "pybullet",
+      "ok": true,
+      "version": "3.2.7",
+      "error": null,
+      "hint": null,
+      "is_simulator": true,
+      "is_reference": false,
+      "settings": [
+        "loadURDF(useFixedBase=True, flags=2)",
+        "setGravity(0, 0, -9.81)  [PyBullet's default gravity is 0]",
+        "setTimeStep(0.001)",
+        "default joint velocity motors disabled (force=0)  [PyBullet holds every joint with a motor]",
+        "link linear/angular damping set to 0  [PyBullet's default is 0.04]",
+        "joint speed cap raised to 10000 rad/s  [PyBullet clamps joint speeds at 100 by default]"
+      ],
+      "defaults": {
+        "base": "floating (loadURDF useFixedBase=False)",
+        "gravity": "0 until setGravity is called",
+        "joint motors": "a velocity motor on every joint, max force = URDF effort",
+        "inertia": "from the URDF",
+        "missing <inertial>": "mass 1 kg",
+        "mimic": "not supported by loadURDF (the joint stays independent)",
+        "floating joint": "built as a fixed joint",
+        "joint speed": "clamped at 100 rad/s"
+      },
+      "warnings": [
+        "importer: No inertial data for link, using mass=1, localinertiadiagonal = 1,1,1, identity local inertial frame: base, fr3v2_link0_accelerometer_top, fr3v2_link0_accelerometer_bottom, fr3v2_link1_accelerometer_top, fr3v2_link1_accelerometer_bottom, fr3v2_link2_accelerometer_top, fr3v2_link2_accelerometer_bottom, fr3v2_link3_accelerometer_top and 7 more"
+      ]
+    }
+  ],
+  "config": {
+    "tolerances": {
+      "limit_abs": 1e-06,
+      "param_rel": 1e-06,
+      "mass_rel": 1e-06,
+      "com_abs": 1e-06,
+      "inertia_rel": 1e-05,
+      "inertia_abs": 1e-09,
+      "position_abs": 1e-06,
+      "angle_abs": 1e-06,
+      "mass_matrix_rel": 1e-06,
+      "gravity_rel": 1e-06,
+      "coriolis_rel": 1e-05,
+      "torque_abs": 1e-08,
+      "rigid_rollout_abs": 1e-05,
+      "passive_rollout_abs": 0.01,
+      "passive_rollout_rel": 0.02,
+      "effect_abs": 1e-09
+    },
+    "samples": 6,
+    "rollout_samples": 2,
+    "seed": 0,
+    "dt": 0.001,
+    "duration": 0.5,
+    "severity_overrides": {}
+  },
+  "problems": [
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "headline": "Engines simulate different mass, center of mass or inertia than the file declares",
+      "engines": [
+        "pybullet[inertia_from_file=1]",
+        "pybullet"
+      ],
+      "hints": [
+        "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+        "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1)."
+      ],
+      "explains": [
+        [
+          "dynamics.mass_matrix",
+          "pybullet"
+        ],
+        [
+          "dynamics.mass_matrix",
+          "pybullet[inertia_from_file=1]"
+        ],
+        [
+          "dynamics.gravity",
+          "pybullet"
+        ],
+        [
+          "dynamics.gravity",
+          "pybullet[inertia_from_file=1]"
+        ],
+        [
+          "dynamics.coriolis",
+          "pybullet"
+        ],
+        [
+          "dynamics.coriolis",
+          "pybullet[inertia_from_file=1]"
+        ],
+        [
+          "rollout.rigid",
+          "pybullet"
+        ],
+        [
+          "rollout.rigid",
+          "pybullet[inertia_from_file=1]"
+        ]
+      ],
+      "unexplained": false,
+      "causes_unchecked": false
+    },
+    {
+      "check": "rollout.passive_effect",
+      "severity": "FAIL",
+      "headline": "An engine reads joint damping or friction but does not simulate it",
+      "engines": [
+        "pybullet",
+        "pybullet[inertia_from_file=1]"
+      ],
+      "hints": [
+        "pybullet stores <dynamics friction> (getJointInfo) but loadURDF does not simulate it. Workaround: a VELOCITY_CONTROL motor with targetVelocity=0 and force=friction on each joint."
+      ],
+      "explains": [],
+      "unexplained": false,
+      "causes_unchecked": false
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "headline": "Moving links have no <inertial>, so each engine invents its own mass for them",
+      "engines": [
+        "file"
+      ],
+      "hints": [
+        "Add an explicit <inertial> so every engine uses the same mass."
+      ],
+      "explains": [],
+      "unexplained": false,
+      "causes_unchecked": false
+    },
+    {
+      "check": "import.mimic",
+      "severity": "WARN",
+      "headline": "Mimic couplings are enforced by some engines and ignored by others",
+      "engines": [
+        "pybullet",
+        "pybullet[inertia_from_file=1]"
+      ],
+      "hints": [
+        "pybullet.loadURDF does not create <mimic> couplings; add them yourself, e.g. createConstraint(..., JOINT_GEAR, ...) with gearRatio = -multiplier."
+      ],
+      "explains": [],
+      "unexplained": false,
+      "causes_unchecked": false
+    }
+  ],
+  "matrix": {
+    "file.inertial": {
+      "file": "WARN"
+    },
+    "file.inertia_validity": {
+      "file": "PASS"
+    },
+    "file.limits": {
+      "file": "PASS"
+    },
+    "file.axis": {
+      "file": "PASS"
+    },
+    "file.meshes": {
+      "file": "PASS"
+    },
+    "file.joint_types": {
+      "file": "PASS"
+    },
+    "import.load": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "INFO",
+      "pybullet[inertia_from_file=1]": "INFO"
+    },
+    "import.dofs": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.joint_order": {
+      "file": "PASS"
+    },
+    "import.multi_dof": {
+      "file": "SKIP"
+    },
+    "import.base_mode": {
+      "pinocchio": "INFO",
+      "mujoco": "INFO",
+      "pybullet": "INFO",
+      "pybullet[inertia_from_file=1]": "INFO"
+    },
+    "import.limits": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.effort_velocity": {
+      "pinocchio": "PASS",
+      "mujoco": "INFO",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.damping_friction": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.armature": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "import.mimic": {
+      "pinocchio": "INFO",
+      "mujoco": "INFO",
+      "pybullet": "WARN",
+      "pybullet[inertia_from_file=1]": "WARN"
+    },
+    "inertia.clusters": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "FAIL"
+    },
+    "kinematics.frames": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    },
+    "dynamics.mass_matrix": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "FAIL"
+    },
+    "dynamics.gravity": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "FAIL"
+    },
+    "dynamics.coriolis": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "FAIL"
+    },
+    "rollout.rigid": {
+      "pinocchio": "PASS",
+      "mujoco": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "FAIL"
+    },
+    "rollout.passive_effect": {
+      "mujoco": "PASS",
+      "pybullet": "FAIL",
+      "pybullet[inertia_from_file=1]": "FAIL"
+    },
+    "rollout.passive": {
+      "mujoco": "PASS",
+      "pybullet": "PASS",
+      "pybullet[inertia_from_file=1]": "PASS"
+    }
+  },
+  "findings": [
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_link1_accelerometer_top",
+      "message": "moved by 'fr3v2_joint1' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_link1_accelerometer_bottom",
+      "message": "moved by 'fr3v2_joint1' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_link2_accelerometer_top",
+      "message": "moved by 'fr3v2_joint2' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_link2_accelerometer_bottom",
+      "message": "moved by 'fr3v2_joint2' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_link3_accelerometer_top",
+      "message": "moved by 'fr3v2_joint3' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_link3_accelerometer_bottom",
+      "message": "moved by 'fr3v2_joint3' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_link4_accelerometer_top",
+      "message": "moved by 'fr3v2_joint4' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_link4_accelerometer_bottom",
+      "message": "moved by 'fr3v2_joint4' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_link5_accelerometer_top",
+      "message": "moved by 'fr3v2_joint5' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_link5_accelerometer_bottom",
+      "message": "moved by 'fr3v2_joint5' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_link8",
+      "message": "moved by 'fr3v2_joint7' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertial",
+      "severity": "WARN",
+      "backend": null,
+      "subject": "fr3v2_hand_tcp",
+      "message": "moved by 'fr3v2_joint7' but has no <inertial>",
+      "hint": "Add an explicit <inertial> so every engine uses the same mass.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.inertia_validity",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "all declared inertias are physical",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.limits",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "no ambiguous joint ranges",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.axis",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "all joint axes are unit vectors",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.meshes",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "11 <visual> element(s) ignored; collision mesh formats: .stl",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "file.joint_types",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "9 movable joint(s), all of supported types",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.load",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "loaded (4.1.0)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "warnings": []
+      }
+    },
+    {
+      "check": "import.load",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "loaded (3.15.0)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "warnings": []
+      }
+    },
+    {
+      "check": "import.load",
+      "severity": "INFO",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "loaded (3.2.7); 1 importer message(s)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "warnings": [
+          "importer: No inertial data for link, using mass=1, localinertiadiagonal = 1,1,1, identity local inertial frame: base, fr3v2_link0_accelerometer_top, fr3v2_link0_accelerometer_bottom, fr3v2_link1_accelerometer_top, fr3v2_link1_accelerometer_bottom, fr3v2_link2_accelerometer_top, fr3v2_link2_accelerometer_bottom, fr3v2_link3_accelerometer_top and 7 more"
+        ]
+      }
+    },
+    {
+      "check": "import.load",
+      "severity": "INFO",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "loaded (3.2.7); 1 importer message(s)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "warnings": [
+          "importer: No inertial data for link, using mass=1, localinertiadiagonal = 1,1,1, identity local inertial frame: base, fr3v2_link0_accelerometer_top, fr3v2_link0_accelerometer_bottom, fr3v2_link1_accelerometer_top, fr3v2_link1_accelerometer_bottom, fr3v2_link2_accelerometer_top, fr3v2_link2_accelerometer_bottom, fr3v2_link3_accelerometer_top and 7 more"
+        ]
+      }
+    },
+    {
+      "check": "import.dofs",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "9/9 movable joints, types match",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.dofs",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "9/9 movable joints, types match",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.dofs",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "9/9 movable joints, types match",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.dofs",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "9/9 movable joints, types match",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.joint_order",
+      "severity": "PASS",
+      "backend": null,
+      "subject": null,
+      "message": "all engines use the same order (the only traversal order: the tree has no branches)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": [
+          "fr3v2_joint1",
+          "fr3v2_joint2",
+          "fr3v2_joint3",
+          "fr3v2_joint4",
+          "fr3v2_joint5",
+          "fr3v2_joint6",
+          "fr3v2_joint7",
+          "fr3v2_finger_joint1",
+          "fr3v2_finger_joint2"
+        ],
+        "conventions": {
+          "depth-first, file order": [
+            "fr3v2_joint1",
+            "fr3v2_joint2",
+            "fr3v2_joint3",
+            "fr3v2_joint4",
+            "fr3v2_joint5",
+            "fr3v2_joint6",
+            "fr3v2_joint7",
+            "fr3v2_finger_joint1",
+            "fr3v2_finger_joint2"
+          ],
+          "depth-first, siblings sorted by name": [
+            "fr3v2_joint1",
+            "fr3v2_joint2",
+            "fr3v2_joint3",
+            "fr3v2_joint4",
+            "fr3v2_joint5",
+            "fr3v2_joint6",
+            "fr3v2_joint7",
+            "fr3v2_finger_joint1",
+            "fr3v2_finger_joint2"
+          ],
+          "breadth-first, file order": [
+            "fr3v2_joint1",
+            "fr3v2_joint2",
+            "fr3v2_joint3",
+            "fr3v2_joint4",
+            "fr3v2_joint5",
+            "fr3v2_joint6",
+            "fr3v2_joint7",
+            "fr3v2_finger_joint1",
+            "fr3v2_finger_joint2"
+          ],
+          "breadth-first, siblings sorted by name": [
+            "fr3v2_joint1",
+            "fr3v2_joint2",
+            "fr3v2_joint3",
+            "fr3v2_joint4",
+            "fr3v2_joint5",
+            "fr3v2_joint6",
+            "fr3v2_joint7",
+            "fr3v2_finger_joint1",
+            "fr3v2_finger_joint2"
+          ],
+          "joint declaration order": [
+            "fr3v2_joint1",
+            "fr3v2_joint2",
+            "fr3v2_joint3",
+            "fr3v2_joint4",
+            "fr3v2_joint5",
+            "fr3v2_joint6",
+            "fr3v2_joint7",
+            "fr3v2_finger_joint1",
+            "fr3v2_finger_joint2"
+          ]
+        },
+        "engines": {
+          "pinocchio": [
+            "fr3v2_joint1",
+            "fr3v2_joint2",
+            "fr3v2_joint3",
+            "fr3v2_joint4",
+            "fr3v2_joint5",
+            "fr3v2_joint6",
+            "fr3v2_joint7",
+            "fr3v2_finger_joint1",
+            "fr3v2_finger_joint2"
+          ],
+          "mujoco": [
+            "fr3v2_joint1",
+            "fr3v2_joint2",
+            "fr3v2_joint3",
+            "fr3v2_joint4",
+            "fr3v2_joint5",
+            "fr3v2_joint6",
+            "fr3v2_joint7",
+            "fr3v2_finger_joint1",
+            "fr3v2_finger_joint2"
+          ],
+          "pybullet": [
+            "fr3v2_joint1",
+            "fr3v2_joint2",
+            "fr3v2_joint3",
+            "fr3v2_joint4",
+            "fr3v2_joint5",
+            "fr3v2_joint6",
+            "fr3v2_joint7",
+            "fr3v2_finger_joint1",
+            "fr3v2_finger_joint2"
+          ],
+          "pybullet[inertia_from_file=1]": [
+            "fr3v2_joint1",
+            "fr3v2_joint2",
+            "fr3v2_joint3",
+            "fr3v2_joint4",
+            "fr3v2_joint5",
+            "fr3v2_joint6",
+            "fr3v2_joint7",
+            "fr3v2_finger_joint1",
+            "fr3v2_finger_joint2"
+          ]
+        },
+        "follows": {
+          "pinocchio": "the only traversal order: the tree has no branches",
+          "mujoco": "the only traversal order: the tree has no branches",
+          "pybullet": "the only traversal order: the tree has no branches",
+          "pybullet[inertia_from_file=1]": "the only traversal order: the tree has no branches"
+        }
+      }
+    },
+    {
+      "check": "import.multi_dof",
+      "severity": "SKIP",
+      "backend": null,
+      "subject": null,
+      "message": "no floating or planar joints declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.base_mode",
+      "severity": "INFO",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "default loader gives a fixed base",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "modes": {
+          "pinocchio": "fixed",
+          "mujoco": "fixed",
+          "pybullet": "floating",
+          "pybullet[inertia_from_file=1]": "floating"
+        }
+      }
+    },
+    {
+      "check": "import.base_mode",
+      "severity": "INFO",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "default loader gives a fixed base",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "modes": {
+          "pinocchio": "fixed",
+          "mujoco": "fixed",
+          "pybullet": "floating",
+          "pybullet[inertia_from_file=1]": "floating"
+        }
+      }
+    },
+    {
+      "check": "import.base_mode",
+      "severity": "INFO",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "default loader gives a floating base",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "modes": {
+          "pinocchio": "fixed",
+          "mujoco": "fixed",
+          "pybullet": "floating",
+          "pybullet[inertia_from_file=1]": "floating"
+        }
+      }
+    },
+    {
+      "check": "import.base_mode",
+      "severity": "INFO",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "default loader gives a floating base",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "modes": {
+          "pinocchio": "fixed",
+          "mujoco": "fixed",
+          "pybullet": "floating",
+          "pybullet[inertia_from_file=1]": "floating"
+        }
+      }
+    },
+    {
+      "check": "import.limits",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "position limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.limits",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "position limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.limits",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "position limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.limits",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "position limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.effort_velocity",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "effort/velocity limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.effort_velocity",
+      "severity": "INFO",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "velocity limits are not represented by this engine (9 joint(s))",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "joints": [
+          "fr3v2_joint1",
+          "fr3v2_joint2",
+          "fr3v2_joint3",
+          "fr3v2_joint4",
+          "fr3v2_joint5",
+          "fr3v2_joint6",
+          "fr3v2_joint7",
+          "fr3v2_finger_joint1",
+          "fr3v2_finger_joint2"
+        ]
+      }
+    },
+    {
+      "check": "import.effort_velocity",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "effort/velocity limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.effort_velocity",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "effort/velocity limits match the file",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.damping_friction",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "damping/friction read as declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.damping_friction",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "damping/friction read as declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.damping_friction",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "damping/friction read as declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.damping_friction",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "damping/friction read as declared",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.armature",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "armature is zero",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.armature",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "armature is zero",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.armature",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "no armature concept",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.armature",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "no armature concept",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "import.mimic",
+      "severity": "INFO",
+      "backend": "pinocchio",
+      "subject": "fr3v2_finger_joint2",
+      "message": "follows 'fr3v2_finger_joint1' (multiplier 1); built as: independent joint",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "handling": {
+          "pinocchio": "independent joint",
+          "mujoco": "equality constraint",
+          "pybullet": "independent joint",
+          "pybullet[inertia_from_file=1]": "independent joint"
+        }
+      }
+    },
+    {
+      "check": "import.mimic",
+      "severity": "INFO",
+      "backend": "mujoco",
+      "subject": "fr3v2_finger_joint2",
+      "message": "follows 'fr3v2_finger_joint1' (multiplier 1); built as: equality constraint",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "handling": {
+          "pinocchio": "independent joint",
+          "mujoco": "equality constraint",
+          "pybullet": "independent joint",
+          "pybullet[inertia_from_file=1]": "independent joint"
+        }
+      }
+    },
+    {
+      "check": "import.mimic",
+      "severity": "WARN",
+      "backend": "pybullet",
+      "subject": "fr3v2_finger_joint2",
+      "message": "follows 'fr3v2_finger_joint1' (multiplier 1); built as: independent joint",
+      "hint": "pybullet.loadURDF does not create <mimic> couplings; add them yourself, e.g. createConstraint(..., JOINT_GEAR, ...) with gearRatio = -multiplier.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "handling": {
+          "pinocchio": "independent joint",
+          "mujoco": "equality constraint",
+          "pybullet": "independent joint",
+          "pybullet[inertia_from_file=1]": "independent joint"
+        }
+      }
+    },
+    {
+      "check": "import.mimic",
+      "severity": "WARN",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "fr3v2_finger_joint2",
+      "message": "follows 'fr3v2_finger_joint1' (multiplier 1); built as: independent joint",
+      "hint": "pybullet.loadURDF does not create <mimic> couplings; add them yourself, e.g. createConstraint(..., JOINT_GEAR, ...) with gearRatio = -multiplier.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "handling": {
+          "pinocchio": "independent joint",
+          "mujoco": "equality constraint",
+          "pybullet": "independent joint",
+          "pybullet[inertia_from_file=1]": "independent joint"
+        }
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "9/9 moving bodies match the declared mass, COM and inertia",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "9/9 moving bodies match the declared mass, COM and inertia",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "fr3v2_joint1",
+      "message": "mass 4.4377 kg vs declared 2.4377 kg; COM off by 60.5 mm; inertia tensor rel. error 0.835",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 6.052057699470152,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.4377,
+          "com": [
+            -0.00458,
+            0.027016,
+            0.2712
+          ],
+          "inertia": [
+            [
+              0.02324,
+              0.000333,
+              -0.000676
+            ],
+            [
+              0.000333,
+              0.02146,
+              0.003739
+            ],
+            [
+              -0.000676,
+              0.003739,
+              0.0055
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 4.4376999999999995,
+          "com": [
+            0.005853783266106318,
+            -0.026420239493431284,
+            0.2976281046488046
+          ],
+          "inertia": [
+            [
+              0.03962433985906091,
+              0.0030114737349751447,
+              -0.0015024871585510523
+            ],
+            [
+              0.0030114737349751447,
+              0.020171822305322464,
+              0.0076215701722103825
+            ],
+            [
+              -0.0015024871585510523,
+              0.0076215701722103825,
+              0.026082221850463175
+            ]
+          ]
+        },
+        "com_err_m": 0.060520576994701515,
+        "inertia_rel_err": 0.8353140195010512,
+        "links_without_inertial": [
+          "fr3v2_link1_accelerometer_bottom",
+          "fr3v2_link1_accelerometer_top"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "fr3v2_joint2",
+      "message": "mass 4.2375 kg vs declared 2.2375 kg; COM off by 31.5 mm; inertia tensor rel. error 0.271",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 3.1469715368304763,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.2375,
+          "com": [
+            0.004541,
+            -0.010478999999999931,
+            0.513691
+          ],
+          "inertia": [
+            [
+              0.019026,
+              0.0004989999999999996,
+              -0.0012410000000000001
+            ],
+            [
+              0.0004989999999999996,
+              0.017114,
+              0.0018039999999999957
+            ],
+            [
+              -0.0012410000000000001,
+              0.0018039999999999957,
+              0.005659999999999998
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 4.2375,
+          "com": [
+            0.011162356932153391,
+            -0.004041713864306702,
+            0.4836067522123894
+          ],
+          "inertia": [
+            [
+              0.02332529826980742,
+              -0.0001910725476047193,
+              0.000940139953575221
+            ],
+            [
+              -0.0001910725476047193,
+              0.018995297614176287,
+              0.0009350448868495529
+            ],
+            [
+              0.000940139953575221,
+              0.0009350448868495529,
+              0.009794827340137938
+            ]
+          ]
+        },
+        "com_err_m": 0.031469715368304764,
+        "inertia_rel_err": 0.27075889157531957,
+        "links_without_inertial": [
+          "fr3v2_link2_accelerometer_bottom",
+          "fr3v2_link2_accelerometer_top"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "fr3v2_joint3",
+      "message": "mass 4.19308 kg vs declared 2.19308 kg; COM off by 35.6 mm; inertia tensor rel. error 0.757",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 3.5620681012500834,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.193082,
+          "com": [
+            0.08254,
+            0.01908200000000012,
+            0.6910270000000001
+          ],
+          "inertia": [
+            [
+              0.010225,
+              0.001144,
+              0.003497
+            ],
+            [
+              0.001144,
+              0.012398,
+              0.002156
+            ],
+            [
+              0.003497,
+              0.002156,
+              0.006877
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 4.193082,
+          "com": [
+            0.07366538223674138,
+            0.04601779567487605,
+            0.6694738798845336
+          ],
+          "inertia": [
+            [
+              0.017368668721253103,
+              0.001094911895346518,
+              -0.0008684896382632646
+            ],
+            [
+              0.001094911895346518,
+              0.01598392247439782,
+              0.0026862420896787646
+            ],
+            [
+              -0.0008684896382632646,
+              0.0026862420896787646,
+              0.016532576308437873
+            ]
+          ]
+        },
+        "com_err_m": 0.035620681012500835,
+        "inertia_rel_err": 0.7567345233419236,
+        "links_without_inertial": [
+          "fr3v2_link3_accelerometer_bottom",
+          "fr3v2_link3_accelerometer_top"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "fr3v2_joint4",
+      "message": "mass 4.18154 kg vs declared 2.18154 kg; COM off by 26.5 mm; inertia tensor rel. error 0.746",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 2.651819918744033,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.181537,
+          "com": [
+            -0.005032999999999996,
+            -0.010119999999999916,
+            0.7453350000000001
+          ],
+          "inertia": [
+            [
+              0.008878,
+              -0.0011389999999999985,
+              -0.0037490000000000006
+            ],
+            [
+              -0.0011389999999999985,
+              0.010295,
+              0.00046000000000000104
+            ],
+            [
+              -0.0037490000000000006,
+              0.00046000000000000104,
+              0.007628
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 4.1815370000000005,
+          "com": [
+            0.00625256317928073,
+            -0.0037682685672755134,
+            0.7221939874967027
+          ],
+          "inertia": [
+            [
+              0.01442626089604803,
+              -0.00031600117195830404,
+              0.0011869848739569002
+            ],
+            [
+              -0.00031600117195830404,
+              0.016382191812858646,
+              0.000687374617912426
+            ],
+            [
+              0.0011869848739569002,
+              0.000687374617912426,
+              0.013518033582059668
+            ]
+          ]
+        },
+        "com_err_m": 0.02651819918744033,
+        "inertia_rel_err": 0.7463991782697309,
+        "links_without_inertial": [
+          "fr3v2_link4_accelerometer_bottom",
+          "fr3v2_link4_accelerometer_top"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "fr3v2_joint5",
+      "message": "mass 4.18688 kg vs declared 2.18688 kg; COM off by 44.5 mm; inertia tensor rel. error 0.288",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 4.452393685629136,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.186881,
+          "com": [
+            0.008383,
+            0.010179999999999974,
+            0.9797349999999999
+          ],
+          "inertia": [
+            [
+              0.031874,
+              0.000134,
+              -0.000265
+            ],
+            [
+              0.000134,
+              0.029674,
+              -0.004734
+            ],
+            [
+              -0.000265,
+              -0.004734,
+              0.004751
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 4.186881,
+          "com": [
+            -0.0044836183729606875,
+            0.04547763563855764,
+            1.0036286812390898
+          ],
+          "inertia": [
+            [
+              0.03298280906000344,
+              0.00207491917751526,
+              0.0014186441129690121
+            ],
+            [
+              0.00207491917751526,
+              0.023957751264661015,
+              -0.003844206385718687
+            ],
+            [
+              0.0014186441129690121,
+              -0.003844206385718687,
+              0.015450555256195705
+            ]
+          ]
+        },
+        "com_err_m": 0.044523936856291364,
+        "inertia_rel_err": 0.2882340563076989,
+        "links_without_inertial": [
+          "fr3v2_link5_accelerometer_bottom",
+          "fr3v2_link5_accelerometer_top"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "fr3v2_joint6",
+      "message": "inertia tensor rel. error 0.569",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.5694331546458399,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 1.579681,
+          "com": [
+            0.070391,
+            0.03502499999999998,
+            1.016926
+          ],
+          "inertia": [
+            [
+              0.00286,
+              0.0006380000000000002,
+              -0.0005529999999999998
+            ],
+            [
+              0.0006380000000000002,
+              0.00453,
+              0.00024000000000000025
+            ],
+            [
+              -0.0005529999999999998,
+              0.00024000000000000025,
+              0.00391
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 1.579681,
+          "com": [
+            0.07039099999999998,
+            0.03502499999999997,
+            1.016926
+          ],
+          "inertia": [
+            [
+              0.003989637845216431,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.007131850406610039,
+              4.2039903133250687e-19
+            ],
+            [
+              0.0,
+              4.2039903133250687e-19,
+              0.006185195946182042
+            ]
+          ]
+        },
+        "com_err_m": 1.5515838457795457e-17,
+        "inertia_rel_err": 0.5694331546458399,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "fr3v2_joint7",
+      "message": "mass 3.34924 kg vs declared 1.34924 kg; COM off by 38.6 mm; inertia tensor rel. error 2.45",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 3.8647575066978552,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 1.3492410000000001,
+          "com": [
+            0.08738217673101852,
+            -0.013445986062306346,
+            0.9376048571115165
+          ],
+          "inertia": [
+            [
+              0.0033389702847546002,
+              0.0007227719008826483,
+              0.00039750162665527257
+            ],
+            [
+              0.0007227719008826484,
+              0.0036105239538795587,
+              0.00016910053746388464
+            ],
+            [
+              0.00039750162665527257,
+              0.00016910053746388464,
+              0.0025769820316915767
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 3.349241,
+          "com": [
+            0.08775111003201504,
+            -0.005416712527014949,
+            0.899802347759985
+          ],
+          "inertia": [
+            [
+              0.01316048006138034,
+              0.0010125374602804815,
+              0.000401871378751096
+            ],
+            [
+              0.0010125374602804815,
+              0.013091111116900167,
+              0.0008910510981613213
+            ],
+            [
+              0.000401871378751096,
+              0.0008910510981613213,
+              0.004947272921220421
+            ]
+          ]
+        },
+        "com_err_m": 0.03864757506697855,
+        "inertia_rel_err": 2.44766317900755,
+        "links_without_inertial": [
+          "fr3v2_hand_tcp",
+          "fr3v2_link8"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "fr3v2_finger_joint1",
+      "message": "inertia tensor rel. error 0.2",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.20016237538216627,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.0291,
+          "com": [
+            0.09880812715043635,
+            -0.010808127150436261,
+            0.8456324999999999
+          ],
+          "inertia": [
+            [
+              8.51e-06,
+              -2.000000000000057e-08,
+              7.495331880577403e-07
+            ],
+            [
+              -2.0000000000000527e-08,
+              8.51e-06,
+              -7.495331880577352e-07
+            ],
+            [
+              7.495331880577403e-07,
+              -7.495331880577352e-07,
+              1.7699999999999987e-06
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.0291,
+          "com": [
+            0.09880812715043635,
+            -0.010808127150436253,
+            0.8456324999999999
+          ],
+          "inertia": [
+            [
+              9.309575485000001e-06,
+              2.5355848499999964e-07,
+              2.252051745088576e-22
+            ],
+            [
+              2.53558485e-07,
+              9.309575485000003e-06,
+              5.336938460054343e-21
+            ],
+            [
+              2.252051745088579e-22,
+              5.336938460054343e-21,
+              3.3007169700000004e-06
+            ]
+          ]
+        },
+        "com_err_m": 8.673617379884035e-18,
+        "inertia_rel_err": 0.20016237538216627,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "fr3v2_finger_joint2",
+      "message": "inertia tensor rel. error 0.2",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.20016237538216614,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 0.0291,
+          "com": [
+            0.07719187284956361,
+            0.010808127150436496,
+            0.8456324999999999
+          ],
+          "inertia": [
+            [
+              8.51e-06,
+              -1.9999999999999355e-08,
+              -7.495331880577404e-07
+            ],
+            [
+              -1.9999999999999398e-08,
+              8.51e-06,
+              7.495331880577455e-07
+            ],
+            [
+              -7.495331880577405e-07,
+              7.495331880577455e-07,
+              1.7700000000000013e-06
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 0.0291,
+          "com": [
+            0.07719187284956361,
+            0.010808127150436506,
+            0.8456324999999999
+          ],
+          "inertia": [
+            [
+              9.309575485000003e-06,
+              2.5355848500000123e-07,
+              2.2520517450885834e-22
+            ],
+            [
+              2.535584850000015e-07,
+              9.309575485000001e-06,
+              5.336938460054343e-21
+            ],
+            [
+              2.2520517450885867e-22,
+              5.336938460054343e-21,
+              3.3007169700000004e-06
+            ]
+          ]
+        },
+        "com_err_m": 1.0408340855860843e-17,
+        "inertia_rel_err": 0.20016237538216614,
+        "links_without_inertial": [],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "fr3v2_joint1",
+      "message": "mass 4.4377 kg vs declared 2.4377 kg; COM off by 60.5 mm; inertia tensor rel. error 107",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 107.10597627557901,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.4377,
+          "com": [
+            -0.00458,
+            0.027016,
+            0.2712
+          ],
+          "inertia": [
+            [
+              0.02324,
+              0.000333,
+              -0.000676
+            ],
+            [
+              0.000333,
+              0.02146,
+              0.003739
+            ],
+            [
+              -0.000676,
+              0.003739,
+              0.0055
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 4.4376999999999995,
+          "com": [
+            0.005853783266106418,
+            -0.02642023949343129,
+            0.2976281046488046
+          ],
+          "inertia": [
+            [
+              2.0425133842507526,
+              0.0033444737349774783,
+              -0.0021784871585560877
+            ],
+            [
+              0.0033444737349774788,
+              2.0258737449779876,
+              0.01136057017223838
+            ],
+            [
+              -0.0021784871585560877,
+              0.01136057017223838,
+              2.0215427706551905
+            ]
+          ]
+        },
+        "com_err_m": 0.06052057699470154,
+        "inertia_rel_err": 107.10597627557901,
+        "links_without_inertial": [
+          "fr3v2_link1_accelerometer_bottom",
+          "fr3v2_link1_accelerometer_top"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "fr3v2_joint2",
+      "message": "mass 4.2375 kg vs declared 2.2375 kg; COM off by 31.5 mm; inertia tensor rel. error 131",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 131.4199464958514,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.2375,
+          "com": [
+            0.004541,
+            -0.010478999999999931,
+            0.513691
+          ],
+          "inertia": [
+            [
+              0.019026,
+              0.0004989999999999996,
+              -0.0012410000000000001
+            ],
+            [
+              0.0004989999999999996,
+              0.017114,
+              0.0018039999999999957
+            ],
+            [
+              -0.0012410000000000001,
+              0.0018039999999999957,
+              0.005659999999999998
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 4.2375,
+          "com": [
+            0.011162356932153483,
+            -0.004041713864306664,
+            0.4836067522123892
+          ],
+          "inertia": [
+            [
+              2.0235639266362138,
+              0.0003079274528370291,
+              -0.0003008600469762809
+            ],
+            [
+              0.0003079274528370291,
+              2.0216216775116083,
+              0.002739044890366246
+            ],
+            [
+              -0.0003008600469762809,
+              0.002739044890366246,
+              2.006111383979235
+            ]
+          ]
+        },
+        "com_err_m": 0.03146971536830501,
+        "inertia_rel_err": 131.4199464958514,
+        "links_without_inertial": [
+          "fr3v2_link2_accelerometer_bottom",
+          "fr3v2_link2_accelerometer_top"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "fr3v2_joint3",
+      "message": "mass 4.19308 kg vs declared 2.19308 kg; COM off by 35.6 mm; inertia tensor rel. error 188",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 187.70517059732668,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.193082,
+          "com": [
+            0.08254,
+            0.01908200000000012,
+            0.6910270000000001
+          ],
+          "inertia": [
+            [
+              0.010225,
+              0.001144,
+              0.003497
+            ],
+            [
+              0.001144,
+              0.012398,
+              0.002156
+            ],
+            [
+              0.003497,
+              0.002156,
+              0.006877
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 4.193082,
+          "com": [
+            0.07366538223674143,
+            0.04601779567487614,
+            0.6694738798845334
+          ],
+          "inertia": [
+            [
+              2.01574765912997,
+              0.00223891189535035,
+              0.0026285103617452858
+            ],
+            [
+              0.00223891189535035,
+              2.0149430951064833,
+              0.004842242089667493
+            ],
+            [
+              0.0026285103617452858,
+              0.004842242089667491,
+              2.010584241315099
+            ]
+          ]
+        },
+        "com_err_m": 0.03562068101250095,
+        "inertia_rel_err": 187.70517059732668,
+        "links_without_inertial": [
+          "fr3v2_link3_accelerometer_bottom",
+          "fr3v2_link3_accelerometer_top"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "fr3v2_joint4",
+      "message": "mass 4.18154 kg vs declared 2.18154 kg; COM off by 26.5 mm; inertia tensor rel. error 209",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 209.45565718231992,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.181537,
+          "com": [
+            -0.005032999999999996,
+            -0.010119999999999916,
+            0.7453350000000001
+          ],
+          "inertia": [
+            [
+              0.008878,
+              -0.0011389999999999985,
+              -0.0037490000000000006
+            ],
+            [
+              -0.0011389999999999985,
+              0.010295,
+              0.00046000000000000104
+            ],
+            [
+              -0.0037490000000000006,
+              0.00046000000000000104,
+              0.007628
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 4.1815370000000005,
+          "com": [
+            0.006252563179280814,
+            -0.0037682685672754475,
+            0.7221939874967027
+          ],
+          "inertia": [
+            [
+              2.0115553591512825,
+              -0.0014550011719390477,
+              -0.002562015126059141
+            ],
+            [
+              -0.0014550011719390468,
+              2.013327597179093,
+              0.0011473746178986266
+            ],
+            [
+              -0.002562015126059141,
+              0.0011473746178986262,
+              2.0084400040541692
+            ]
+          ]
+        },
+        "com_err_m": 0.026518199187440382,
+        "inertia_rel_err": 209.45565718231992,
+        "links_without_inertial": [
+          "fr3v2_link4_accelerometer_bottom",
+          "fr3v2_link4_accelerometer_top"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "fr3v2_joint5",
+      "message": "mass 4.18688 kg vs declared 2.18688 kg; COM off by 44.5 mm; inertia tensor rel. error 78.4",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 78.40304179340421,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 2.186881,
+          "com": [
+            0.008383,
+            0.010179999999999974,
+            0.9797349999999999
+          ],
+          "inertia": [
+            [
+              0.031874,
+              0.000134,
+              -0.000265
+            ],
+            [
+              0.000134,
+              0.029674,
+              -0.004734
+            ],
+            [
+              -0.000265,
+              -0.004734,
+              0.004751
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 4.186881,
+          "com": [
+            -0.0044836183729606155,
+            0.0454776356385577,
+            1.0036286812390898
+          ],
+          "inertia": [
+            [
+              2.040242387189726,
+              0.0022089191775151776,
+              0.001153644112969094
+            ],
+            [
+              0.002208919177515178,
+              2.0330926855214724,
+              -0.008578206385718616
+            ],
+            [
+              0.0011536441129690938,
+              -0.008578206385718618,
+              2.011222170753515
+            ]
+          ]
+        },
+        "com_err_m": 0.04452393685629139,
+        "inertia_rel_err": 78.40304179340421,
+        "links_without_inertial": [
+          "fr3v2_link5_accelerometer_bottom",
+          "fr3v2_link5_accelerometer_top"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "inertia.clusters",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "fr3v2_joint7",
+      "message": "mass 3.34924 kg vs declared 1.34924 kg; COM off by 38.6 mm; inertia tensor rel. error 612",
+      "hint": "These bodies include links without <inertial>, for which each engine substitutes its own default mass (the links are listed under file.inertial). Add explicit <inertial> blocks.",
+      "score": 611.8308741243501,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "declared": {
+          "mass": 1.3492410000000001,
+          "com": [
+            0.08738217673101852,
+            -0.013445986062306346,
+            0.9376048571115165
+          ],
+          "inertia": [
+            [
+              0.0033389702847546002,
+              0.0007227719008826483,
+              0.00039750162665527257
+            ],
+            [
+              0.0007227719008826484,
+              0.0036105239538795587,
+              0.00016910053746388464
+            ],
+            [
+              0.00039750162665527257,
+              0.00016910053746388464,
+              0.0025769820316915767
+            ]
+          ]
+        },
+        "engine": {
+          "mass": 3.349241,
+          "com": [
+            0.08775111003201518,
+            -0.005416712527014866,
+            0.8998023477599851
+          ],
+          "inertia": [
+            [
+              2.0120592613289467,
+              0.0007160787587820331,
+              0.00042901351437590294
+            ],
+            [
+              0.000716078758782033,
+              2.012185456455815,
+              0.0008549089625363448
+            ],
+            [
+              0.00042901351437590294,
+              0.0008549089625363448,
+              2.0027229556540034
+            ]
+          ]
+        },
+        "com_err_m": 0.03864757506697846,
+        "inertia_rel_err": 611.8308741243501,
+        "links_without_inertial": [
+          "fr3v2_hand_tcp",
+          "fr3v2_link8"
+        ],
+        "links_with_nonphysical_inertia": [],
+        "links_with_zero_mass": []
+      }
+    },
+    {
+      "check": "kinematics.frames",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "9 joint frames match at 6 configurations",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_position_err_m": 2.3679452014671183e-16,
+        "max_angle_err_rad": 1.4901161193847656e-08
+      }
+    },
+    {
+      "check": "kinematics.frames",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "9 joint frames match at 6 configurations",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_position_err_m": 3.775166431889533e-16,
+        "max_angle_err_rad": 4.712160915387242e-08
+      }
+    },
+    {
+      "check": "kinematics.frames",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "9 joint frames match at 6 configurations",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_position_err_m": 7.131967119992949e-08,
+        "max_angle_err_rad": 5.157610267364077e-07
+      }
+    },
+    {
+      "check": "kinematics.frames",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "9 joint frames match at 6 configurations",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_position_err_m": 5.353620031067317e-08,
+        "max_angle_err_rad": 2.5895457263265276e-07
+      }
+    },
+    {
+      "check": "dynamics.mass_matrix",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "dynamics.mass_matrix",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 1.1e-15 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 1.1058270066341725e-15
+      }
+    },
+    {
+      "check": "dynamics.mass_matrix",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "M(q) differs from pinocchio: rel. error 0.952 (largest at fr3v2_joint2/fr3v2_joint2: 2.35744 vs 1.27763)",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.9520550535037139,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 0.9520550535037139,
+        "sample": 3,
+        "entry": "fr3v2_joint2/fr3v2_joint2",
+        "engine": 2.3574404168772736,
+        "reference": 1.2776263268907282
+      }
+    },
+    {
+      "check": "dynamics.mass_matrix",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "M(q) differs from pinocchio: rel. error 17.3 (largest at fr3v2_joint1/fr3v2_joint1: 13.0721 vs 0.612824)",
+      "hint": null,
+      "score": 17.312314400234815,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 17.312314400234815,
+        "sample": 1,
+        "entry": "fr3v2_joint1/fr3v2_joint1",
+        "engine": 13.072081581182248,
+        "reference": 0.6128243815354794
+      }
+    },
+    {
+      "check": "dynamics.gravity",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "dynamics.gravity",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 3.9e-16 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 3.922374507684164e-16
+      }
+    },
+    {
+      "check": "dynamics.gravity",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "g(q) differs from pinocchio: rel. error 0.814 (largest at fr3v2_joint2: -7.59073 vs -4.24525)",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.8143112724854222,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 0.8143112724854222,
+        "sample": 0,
+        "entry": "fr3v2_joint2",
+        "engine": -7.590732399466493,
+        "reference": -4.2452477194664935
+      }
+    },
+    {
+      "check": "dynamics.gravity",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "g(q) differs from pinocchio: rel. error 0.814 (largest at fr3v2_joint2: -7.59073 vs -4.24525)",
+      "hint": null,
+      "score": 0.8143112724854238,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 0.8143112724854238,
+        "sample": 0,
+        "entry": "fr3v2_joint2",
+        "engine": -7.590732399466518,
+        "reference": -4.2452477194664935
+      }
+    },
+    {
+      "check": "dynamics.coriolis",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "dynamics.coriolis",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "matches pinocchio (max rel. error 6.6e-15 over 6 samples)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 6.5608430526695635e-15
+      }
+    },
+    {
+      "check": "dynamics.coriolis",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "C(q,qd)qd differs from pinocchio: rel. error 1.12 (largest at fr3v2_joint2: 2.4703 vs 1.16587)",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 1.116126132565824,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 1.116126132565824,
+        "sample": 1,
+        "entry": "fr3v2_joint2",
+        "engine": 2.4702972420970184,
+        "reference": 1.1658700785460034
+      }
+    },
+    {
+      "check": "dynamics.coriolis",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "C(q,qd)qd differs from pinocchio: rel. error 12.1 (largest at fr3v2_joint2: 12.5827 vs 1.16587)",
+      "hint": null,
+      "score": 12.127109678876906,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "rel_err": 12.127109678876906,
+        "sample": 1,
+        "entry": "fr3v2_joint2",
+        "engine": 12.582703462626291,
+        "reference": 1.1658700785460034
+      }
+    },
+    {
+      "check": "rollout.rigid",
+      "severity": "PASS",
+      "backend": "pinocchio",
+      "subject": null,
+      "message": "reference",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "rollout.rigid",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "matches pinocchio (max deviation 1e-17 over 2 rollout(s))",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 1.0408340855860843e-17
+      }
+    },
+    {
+      "check": "rollout.rigid",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": "fr3v2_joint6",
+      "message": "deviates from pinocchio by 0.0029 at t=0.019s (tolerance 1e-05)",
+      "hint": "PyBullet's loadURDF ignores URDF inertia tensors by default and recomputes them from collision shapes. Pass flags=URDF_USE_INERTIA_FROM_FILE (simcompat: -b pybullet:inertia_from_file=1).",
+      "score": 0.0028988720142475444,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 0.0028988720142475444,
+        "t": 0.019,
+        "joint": "fr3v2_joint6"
+      }
+    },
+    {
+      "check": "rollout.rigid",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": "fr3v2_joint4",
+      "message": "deviates from pinocchio by 0.00597 at t=0.020s (tolerance 1e-05)",
+      "hint": null,
+      "score": 0.0059701971815036,
+      "compared_with": "pinocchio",
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 0.0059701971815036,
+        "t": 0.02,
+        "joint": "fr3v2_joint4"
+      }
+    },
+    {
+      "check": "rollout.passive_effect",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "damping acts (changes the trajectory by up to 0.326)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "joints": [
+          "fr3v2_joint1",
+          "fr3v2_joint2",
+          "fr3v2_joint3",
+          "fr3v2_joint4",
+          "fr3v2_joint5",
+          "fr3v2_joint6",
+          "fr3v2_joint7",
+          "fr3v2_finger_joint1",
+          "fr3v2_finger_joint2"
+        ],
+        "effect": 0.32610869938988873
+      }
+    },
+    {
+      "check": "rollout.passive_effect",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "friction acts (changes the trajectory by up to 2.57)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "joints": [
+          "fr3v2_joint1",
+          "fr3v2_joint2",
+          "fr3v2_joint3",
+          "fr3v2_joint4",
+          "fr3v2_joint5",
+          "fr3v2_joint6",
+          "fr3v2_joint7"
+        ],
+        "effect": 2.569993665231985
+      }
+    },
+    {
+      "check": "rollout.passive_effect",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "damping acts (changes the trajectory by up to 0.0512)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "joints": [
+          "fr3v2_joint1",
+          "fr3v2_joint2",
+          "fr3v2_joint3",
+          "fr3v2_joint4",
+          "fr3v2_joint5",
+          "fr3v2_joint6",
+          "fr3v2_joint7",
+          "fr3v2_finger_joint1",
+          "fr3v2_finger_joint2"
+        ],
+        "effect": 0.05117956091689241
+      }
+    },
+    {
+      "check": "rollout.passive_effect",
+      "severity": "FAIL",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "declared <dynamics friction> has NO effect on the motion (read but not simulated) on fr3v2_joint1, fr3v2_joint2, fr3v2_joint3 and 4 more",
+      "hint": "pybullet stores <dynamics friction> (getJointInfo) but loadURDF does not simulate it. Workaround: a VELOCITY_CONTROL motor with targetVelocity=0 and force=friction on each joint.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "joints": [
+          "fr3v2_joint1",
+          "fr3v2_joint2",
+          "fr3v2_joint3",
+          "fr3v2_joint4",
+          "fr3v2_joint5",
+          "fr3v2_joint6",
+          "fr3v2_joint7"
+        ],
+        "effect": 0.0
+      }
+    },
+    {
+      "check": "rollout.passive_effect",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "damping acts (changes the trajectory by up to 0.021)",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "joints": [
+          "fr3v2_joint1",
+          "fr3v2_joint2",
+          "fr3v2_joint3",
+          "fr3v2_joint4",
+          "fr3v2_joint5",
+          "fr3v2_joint6",
+          "fr3v2_joint7",
+          "fr3v2_finger_joint1",
+          "fr3v2_finger_joint2"
+        ],
+        "effect": 0.02100699576930362
+      }
+    },
+    {
+      "check": "rollout.passive_effect",
+      "severity": "FAIL",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "declared <dynamics friction> has NO effect on the motion (read but not simulated) on fr3v2_joint1, fr3v2_joint2, fr3v2_joint3 and 4 more",
+      "hint": "pybullet stores <dynamics friction> (getJointInfo) but loadURDF does not simulate it. Workaround: a VELOCITY_CONTROL motor with targetVelocity=0 and force=friction on each joint.",
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "joints": [
+          "fr3v2_joint1",
+          "fr3v2_joint2",
+          "fr3v2_joint3",
+          "fr3v2_joint4",
+          "fr3v2_joint5",
+          "fr3v2_joint6",
+          "fr3v2_joint7"
+        ],
+        "effect": 0.0
+      }
+    },
+    {
+      "check": "rollout.passive",
+      "severity": "PASS",
+      "backend": "mujoco",
+      "subject": null,
+      "message": "baseline",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {}
+    },
+    {
+      "check": "rollout.passive",
+      "severity": "PASS",
+      "backend": "pybullet",
+      "subject": null,
+      "message": "matches mujoco (max deviation 0.0098 over 2 rollout(s))",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 0.009788982436825428,
+        "tolerance": 0.0540033499038832,
+        "passive_effect": 2.70016749519416
+      }
+    },
+    {
+      "check": "rollout.passive",
+      "severity": "PASS",
+      "backend": "pybullet[inertia_from_file=1]",
+      "subject": null,
+      "message": "matches mujoco (max deviation 0.0099 over 2 rollout(s))",
+      "hint": null,
+      "score": 0.0,
+      "compared_with": null,
+      "engine_failure": false,
+      "regraded_from": null,
+      "data": {
+        "max_err": 0.009929834789807076,
+        "tolerance": 0.0540033499038832,
+        "passive_effect": 2.70016749519416
+      }
+    }
+  ]
+}

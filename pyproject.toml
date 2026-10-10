@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simcompat"
+version = "0.2.0"
+description = "Does every physics engine simulate what your robot file declares? Cross-simulator import and dynamics checks for URDF."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+authors = [{ name = "SimCompat contributors" }]
+keywords = ["robotics", "urdf", "mujoco", "pybullet", "pinocchio", "isaac", "sim2sim", "simulation", "validation"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = ["numpy>=1.22", "tomli>=1.1; python_version < '3.11'"]
+
+[project.optional-dependencies]
+mujoco = ["mujoco>=3.1"]
+pybullet = ["pybullet>=3.2"]
+pinocchio = ["pin>=2.7"]
+xacro = ["xacrodoc>=1.0"]
+robots = ["robot_descriptions>=1.12", "xacrodoc>=1.0"]
+all = ["mujoco>=3.1", "pybullet>=3.2", "pin>=2.7", "xacrodoc>=1.0", "robot_descriptions>=1.12"]
+dev = ["simcompat[all]", "pytest>=7", "ruff>=0.5"]
+
+[project.scripts]
+simcompat = "simcompat.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/isospin01/simcompat"
+Issues = "https://github.com/isospin01/simcompat/issues"
+Changelog = "https://github.com/isospin01/simcompat/blob/main/CHANGELOG.md"
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.format]
+exclude = ["*.md"]  # code blocks in the docs keep their aligned comments
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "N", "RUF"]
+# N803/N806: math notation (M, R); N818: BackendUnavailable reads better; RUF001-3: symbols in UI text;
+# RUF012: options_spec is declared ClassVar on the base class
+ignore = ["N803", "N806", "N818", "RUF001", "RUF002", "RUF003", "RUF012", "UP007", "UP045"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["simcompat"]
+known-local-folder = ["conftest", "fake_backend"]

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- A xacro file: simcompat expands it with xacrodoc (no ROS needed). -->
+<robot name="pendulum" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="length" default="0.5"/>
+  <xacro:property name="L" value="$(arg length)"/>
+  <xacro:macro name="point_mass" params="name mass z">
+    <link name="${name}">
+      <inertial><origin xyz="0 0 ${z}"/><mass value="${mass}"/>
+        <inertia ixx="1e-4" iyy="1e-4" izz="1e-4" ixy="0" ixz="0" iyz="0"/></inertial>
+    </link>
+  </xacro:macro>
+  <xacro:point_mass name="base" mass="1" z="0"/>
+  <xacro:point_mass name="bob" mass="0.5" z="-${L}"/>
+  <joint name="hinge" type="revolute"><parent link="base"/><child link="bob"/><axis xyz="0 1 0"/>
+    <limit lower="-3" upper="3" effort="5" velocity="10"/></joint>
+</robot>
